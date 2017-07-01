@@ -1,0 +1,9 @@
+{
+  "name": "bhongy-practices-algorithms",
+  "version": "1.0.0",
+  "description": "Practices Algorithms and Data Structures",
+  "main": "index.js",
+  "repository": "git@github.com:bhongy/bhongy-practices-algorithms.git",
+  "author": "Thanik Bhongbhibhat <bhongbhibhat@gmail.com>",
+  "license": "MIT"
+}
