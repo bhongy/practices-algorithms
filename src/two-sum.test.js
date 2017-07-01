@@ -1,10 +1,11 @@
 // @flow
-'use strict';
+
+import twoSumVersions from './two-sum';
 
 describe('Two Sum', () => {
   const nums = [2, 7, 11, 15];
 
-  require('./two-sum').forEach(twoSum => {
+  twoSumVersions.forEach(twoSum => {
     describe(`... ${twoSum.name}`, () => {
       it('should return an empty array when there is no solution.', () => {
         expect(twoSum(nums, 8)).toEqual([]);

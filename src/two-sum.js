@@ -1,10 +1,9 @@
+// @flow
+
 /*
   Given an array of integers, return indices of the two numbers such that they add up to a specific target.
   https://leetcode.com/problems/two-sum
 */
-
-//  @flow
-'use strict';
 
 function bruteForce(nums: Array<number>, target: number): Array<number> {
   for (let i = 0; i < nums.length - 1; i++) {
@@ -90,4 +89,4 @@ function onePass(nums: Array<number>, target: number): Array<number> {
   return [];
 }
 
-module.exports = [bruteForce, twoPassImperative, twoPassFunctional, onePass];
+export default [bruteForce, twoPassImperative, twoPassFunctional, onePass];
