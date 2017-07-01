@@ -1,0 +1,13 @@
+[ignore]
+<PROJECT_ROOT>/node_modules/.*
+<PROJECT_ROOT>/coverage/.*
+<PROJECT_ROOT>/build/.*
+<PROJECT_ROOT>/.*/__mocks__/.*
+<PROJECT_ROOT>/.*/__tests__/.*
+
+[include]
+
+[libs]
+
+[options]
+suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
