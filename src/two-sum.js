@@ -5,7 +5,9 @@
   https://leetcode.com/problems/two-sum
 */
 
-function bruteForce(nums: Array<number>, target: number): Array<number> {
+type Result = [number, number] | [];
+
+function bruteForce(nums: Array<number>, target: number): Result {
   for (let i = 0; i < nums.length - 1; i++) {
     for (let j = i + 1; j < nums.length; j++) {
       if (nums[i] + nums[j] === target) {
@@ -17,7 +19,7 @@ function bruteForce(nums: Array<number>, target: number): Array<number> {
   return [];
 }
 
-function twoPassImperative(nums: Array<number>, target: number): Array<number> {
+function twoPassImperative(nums: Array<number>, target: number): Result {
   const hashmap = new Map();
 
   // add element's value and its index to the map
@@ -30,6 +32,8 @@ function twoPassImperative(nums: Array<number>, target: number): Array<number> {
     const complement = target - nums[i];
 
     if (hashmap.has(complement)) {
+      // Flow doesn't recognize that null check was performed - i.e. `Map.prototype.has`
+      // $FlowFixMe: suppress the false positive
       return [i, hashmap.get(complement)];
     }
 
@@ -44,7 +48,7 @@ function twoPassImperative(nums: Array<number>, target: number): Array<number> {
   return [];
 }
 
-function twoPassFunctional(nums: Array<number>, target: number): Array<number> {
+function twoPassFunctional(nums: Array<number>, target: number): Result {
   // I generally prefer functional methods over adhoc iteration algorithm
   // it's not as efficient but it's more expressive
   // and abstracted the "looping" from the actual algorithm (less chance for bug)
@@ -62,6 +66,8 @@ function twoPassFunctional(nums: Array<number>, target: number): Array<number> {
     const complement = target - nums[i];
 
     if (hashmap.has(complement)) {
+      // Flow doesn't recognize that null check was performed - i.e. `Map.prototype.has`
+      // $FlowFixMe: suppress the false positive
       return [i, hashmap.get(complement)];
     }
   }
@@ -69,7 +75,7 @@ function twoPassFunctional(nums: Array<number>, target: number): Array<number> {
   return [];
 }
 
-function onePass(nums: Array<number>, target: number): Array<number> {
+function onePass(nums: Array<number>, target: number): Result {
   const hashmap = new Map();
 
   for (let i = 0; i < nums.length; i++) {
@@ -80,6 +86,9 @@ function onePass(nums: Array<number>, target: number): Array<number> {
       // look back to find the complement of `nums[i]` in each iteration
       // hence `i` is more than the index of `complement`
       // return this way to order by the lower index first
+
+      // Flow doesn't recognize that null check was performed - i.e. `Map.prototype.has`
+      // $FlowFixMe: suppress the false positive
       return [hashmap.get(complement), i];
     }
 
