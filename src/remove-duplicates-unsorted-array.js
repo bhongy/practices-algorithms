@@ -7,14 +7,14 @@
 */
 
 function bruteForceImperative(nums: Array<number>): Array<number> {
-  const included = new Map();
+  const includes: Map<number, boolean> = new Map();
   const result = [];
 
   for (let i = 0; i < nums.length; i++) {
     const currentValue = nums[i];
 
-    if (!included.has(currentValue)) {
-      included.set(currentValue, true);
+    if (!includes.has(currentValue)) {
+      includes.set(currentValue, true);
       result.push(currentValue);
     }
   }
@@ -23,7 +23,7 @@ function bruteForceImperative(nums: Array<number>): Array<number> {
 }
 
 function bruteForceFunctional(nums: Array<number>): Array<number> {
-  const includes = new Map();
+  const includes: Map<number, boolean> = new Map();
 
   return nums.reduce((acc, value) => {
     if (!includes.has(value)) {
@@ -36,19 +36,52 @@ function bruteForceFunctional(nums: Array<number>): Array<number> {
 }
 
 function bruteForceFunctionalAvoidMap(nums: Array<number>): Array<number> {
-  const includes = {};
+  // Actually, prefer to use Map rather than object literal
+  // because object keys can only be strings or symbols
+  // hence they are stringified which makes "typing" them misleading
+  // Map's keys can be any types - even objects, arrays, functions
+  const includes: { [value: number]: boolean } = {};
 
   return nums.reduce((acc, value) => {
     if (!includes[value]) {
       includes[value] = true;
       acc.push(value);
     }
+
     return acc;
   }, []);
+}
+
+// avoid using Array.prototype methods and mutate original array for O(1) space
+function bruteForceConstantSpaceAvoidPush<T: number[]>(nums: T): T {
+  const includes: Map<number, boolean> = new Map();
+
+  let iterator = 0;
+  let assigner = 0;
+
+  while (iterator < nums.length) {
+    const value = nums[iterator];
+
+    if (!includes.has(value)) {
+      if (assigner !== iterator) {
+        nums[assigner] = nums[iterator];
+      }
+
+      includes.set(value, true);
+      assigner++;
+    }
+
+    iterator++;
+  }
+
+  nums.length = assigner;
+
+  return nums;
 }
 
 export default [
   bruteForceImperative,
   bruteForceFunctional,
   bruteForceFunctionalAvoidMap,
+  bruteForceConstantSpaceAvoidPush,
 ];

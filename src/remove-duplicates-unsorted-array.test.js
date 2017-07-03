@@ -5,12 +5,6 @@ import removeDuplicatesVersions from './remove-duplicates-unsorted-array';
 describe('Remove Duplicates from Unsorted Array', () => {
   removeDuplicatesVersions.forEach(removeDuplicates => {
     describe(`... ${removeDuplicates.name}`, () => {
-      it('should return a new array', () => {
-        [[], [5, 6, 5, 6, 10]].forEach(input => {
-          expect(removeDuplicates(input)).not.toBe(input);
-        });
-      });
-
       it('should remove duplicate values', () => {
         [
           {
