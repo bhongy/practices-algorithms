@@ -10,11 +10,11 @@
 
 // O(n) time, O(n) space
 function dynamicProgrammingFibonacci(n: number): number {
-  if (n < 0) {
-    throw new Error(
-      `Invalid argument n -> ${n} provided. Input must be a positive integer including 0.`
-    );
-  }
+  // if (n < 0) {
+  //   throw new Error(
+  //     `Invalid argument n -> ${n} provided. Input must be a positive integer including 0.`
+  //   );
+  // }
 
   // use multiple variables and store only last two
   // to achieve O(1) space - but this is easier to understand
