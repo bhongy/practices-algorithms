@@ -88,5 +88,11 @@ describe('Linked List', () => {
       list.removeWithValue(1);
       expect(list.toString()).toBe('3 -> 2 -> 3 -> 4');
     });
+
+    it('should not remove when there is one node left', () => {
+      list = new LinkedList(0);
+      list.removeWithValue(0);
+      expect(list.toString()).toBe('0');
+    });
   });
 });
