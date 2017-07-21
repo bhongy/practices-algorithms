@@ -4,7 +4,7 @@
   @flow
 */
 
-class Node<T> {
+export class Node<T> {
   value: T;
   next: ?Node<T>;
 
@@ -25,31 +25,42 @@ class LinkedList<T> {
   }
 
   // O(1) time
-  prepend(v: T): void {
+  prepend(v: T): Node<T> {
     const newHead = new Node(v);
+
     newHead.next = this.head;
     this.head = newHead;
+
+    return newHead;
   }
 
   // O(1) time
-  shift(): void {
-    // head is not the only node
-    if (this.head.next) {
-      this.head = this.head.next;
+  shift(): ?Node<T> {
+    // head is the only node
+    if (!this.head.next) {
+      return;
     }
+
+    const removed = this.head;
+    this.head = this.head.next;
+    return removed;
   }
 
   // O(n) time
-  append(v: T): void {
+  append(v: T): Node<T> {
+    const newTail = new Node(v);
+
     let current = this.head;
     while (current.next) {
       current = current.next;
     }
-    current.next = new Node(v);
+    current.next = newTail;
+
+    return newTail;
   }
 
   // O(n) time
-  pop(): void {
+  pop(): ?Node<T> {
     // head is the only node
     if (!this.head.next) {
       return;
@@ -59,32 +70,42 @@ class LinkedList<T> {
     while (current.next) {
       // current.next is the last node
       if (!current.next.next) {
+        const removed = current.next;
         current.next = null;
-        return;
+        return removed;
       }
+
       current = current.next;
     }
   }
 
   // O(n) time
-  removeWithValue(v: T): void {
+  removeWithValue(v: T): ?Node<T> {
     if (this.head.value === v) {
-      // head is not the only node
-      if (this.head.next) {
-        this.head = this.head.next;
+      // head is the only node
+      if (!this.head.next) {
+        return;
       }
-      return;
+
+      const removed = this.head
+      this.head = this.head.next;
+      return removed;
     }
 
     let current = this.head;
     while (current.next) {
       if (current.next.value === v) {
+        const removed = current.next;
         // skip the current.next and use the one after
         current.next = current.next.next;
-        return;
+        return removed;
       }
+
       current = current.next;
     }
+
+    // `v` is not in the linked list
+    return;
   }
 
   // O(n) time
@@ -100,8 +121,9 @@ class LinkedList<T> {
   toString(): string {
     let result: Array<string> = [];
 
-    this.forEach(v => {
-      result.push(JSON.stringify(v));
+    this.forEach((v: T): void => {
+      // $FlowFixMe: how to type that `T` must have `toString` method
+      result.push(v.toString());
     });
 
     return result.join(' -> ');
