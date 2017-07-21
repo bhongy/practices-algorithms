@@ -4,10 +4,15 @@
   @flow
 */
 
-type Node<T> = {|
-  value: T,
-  next: ?Node<T>,
-|};
+class Node<T> {
+  value: T;
+  next: ?Node<T>;
+
+  constructor(v: T): void {
+    this.value = v;
+    this.next = null;
+  }
+}
 
 // this implementation guarantees to always have a head
 // e.g. do not allow removing the last node in the list
@@ -16,12 +21,13 @@ class LinkedList<T> {
   head: Node<T>;
 
   constructor(v: T): void {
-    this.head = { value: v, next: null };
+    this.head = new Node(v);
   }
 
   // O(1) time
   prepend(v: T): void {
-    const newHead: Node<T> = { value: v, next: this.head };
+    const newHead = new Node(v);
+    newHead.next = this.head;
     this.head = newHead;
   }
 
@@ -39,7 +45,7 @@ class LinkedList<T> {
     while (current.next) {
       current = current.next;
     }
-    current.next = { value: v, next: null };
+    current.next = new Node(v);
   }
 
   // O(n) time
