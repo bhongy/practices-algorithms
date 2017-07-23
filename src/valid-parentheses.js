@@ -10,7 +10,7 @@
   @flow
 */
 
-const closeBraceOf = {
+const closeBraceOf: { [key: string]: string } = {
   '(': ')',
   '{': '}',
   '[': ']',

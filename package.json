@@ -8,6 +8,7 @@
   "license": "MIT",
   "scripts": {
     "build": "babel src --out-dir build --ignore test.js",
+    "flow-coverage": "flow-coverage-report -i './src/**/*.js' -t html",
     "test": "jest --config=.jestrc"
   },
   "devDependencies": {
@@ -17,6 +18,7 @@
     "babel-plugin-transform-flow-strip-types": "6.22.0",
     "codecov": "^2.2.0",
     "flow-bin": "0.49.1",
+    "flow-coverage-report": "^0.3.0",
     "jest": "20.0.4"
   }
 }

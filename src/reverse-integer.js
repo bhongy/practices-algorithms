@@ -16,7 +16,7 @@ export const MAX_INTEGER = Math.pow(2, 31) - 1;
 // did not come up with the solution myself
 // solution heavily inspired by:
 // https://discuss.leetcode.com/topic/6104/my-accepted-15-lines-of-code-for-java/2
-function reverse(value: number) {
+function reverse(value: number): number {
   let result = 0;
 
   // go through each digit from the back

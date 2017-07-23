@@ -3,7 +3,7 @@ import {
   romanToIntegerSimpler,
 } from './integer-roman-conversion';
 
-const romanToIntegerTestcases = [
+const romanToIntegerTestcases: Array<[string, number]> = [
   ['I', 1],
   ['II', 2],
   ['IV', 4],
@@ -32,7 +32,7 @@ const romanToIntegerTestcases = [
 ];
 
 describe('Roman to Integer (1 to 3999) - v1', () => {
-  romanToIntegerTestcases.forEach(([input, expected]) => {
+  romanToIntegerTestcases.forEach(([input, expected]: [string, number]) => {
     it(`should convert ${input} to ${expected}`, () => {
       expect(romanToInteger(input)).toBe(expected);
     });
@@ -40,7 +40,7 @@ describe('Roman to Integer (1 to 3999) - v1', () => {
 });
 
 describe('Roman to Integer (1 to 3999) - simpler', () => {
-  romanToIntegerTestcases.forEach(([input, expected]) => {
+  romanToIntegerTestcases.forEach(([input, expected]: [string, number]) => {
     it(`should convert ${input} to ${expected}`, () => {
       expect(romanToIntegerSimpler(input)).toBe(expected);
     });
