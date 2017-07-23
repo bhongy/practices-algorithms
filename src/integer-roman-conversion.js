@@ -8,7 +8,7 @@
   @flow
 */
 
-const intFor = {
+const intFor: { [key: string]: number } = {
   i: 1,
   v: 5,
   x: 10,

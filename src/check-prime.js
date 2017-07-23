@@ -2,8 +2,9 @@
   Check if a number is a prime number. Assume inputs are integer (including negative).
 
   http://khan4019.github.io/front-end-Interview-Questions/js1.html#isPrime
-*/
 
+  @flow
+*/
 
 function bruteForce(input: number): boolean {
   if (input < 2) {

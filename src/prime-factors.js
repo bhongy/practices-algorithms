@@ -3,6 +3,8 @@
   with duplicate prime numbers if applicable.
 
   http://khan4019.github.io/front-end-Interview-Questions/js1.html#primFactors
+
+  @flow
 */
 
 function getPrimeFactors(input: number): Array<number> {

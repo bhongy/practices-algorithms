@@ -4,7 +4,7 @@ import getPrimeFactors from './prime-factors';
 
 describe('Prime Factors', () => {
   it('should return an empty array for any numbers less than 2', () => {
-    [-13, -2, 0, 1].forEach(input => {
+    [-13, -2, 0, 1].forEach((input: number) => {
       expect(getPrimeFactors(input)).toEqual([]);
     });
   });
