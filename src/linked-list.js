@@ -129,8 +129,6 @@ class LinkedList<T> {
     return isNil(this.head);
   }
 
-  // TODO: implement "reduce" instead so that
-  //   `size` and `toString` can be more expressive
   // O(n) time
   _forEach(iteratee: (node: Node<T>) => void): void {
     let current = this.head;
@@ -142,26 +140,31 @@ class LinkedList<T> {
   }
 
   // O(n) time
-  size(): number {
-    let length: number = 0;
-
-    this._forEach((): void => {
-      length += 1;
+  _reduce<R>(
+    iteratee: (accumulator: R, node: Node<T>) => R,
+    accumulator: R
+  ): R {
+    this._forEach((node: Node<T>): void => {
+      accumulator = iteratee(accumulator, node);
     });
 
-    return length;
+    return accumulator;
+  }
+
+  // O(n) time
+  size(): number {
+    return this._reduce(length => length += 1, 0);
   }
 
   // O(n) time
   toString(): string {
-    let result: Array<string> = [];
-
-    this._forEach((node: Node<T>): void => {
+    const values = this._reduce((acc: Array<string>, node) => {
       // $FlowFixMe: uncovered. how to type that `T` must have `toString` method
-      result.push(node.value.toString());
-    });
+      acc.push(node.value.toString());
+      return acc;
+    }, []);
 
-    return result.join(' -> ');
+    return values.join(' -> ');
   }
 }
 
