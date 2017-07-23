@@ -158,22 +158,22 @@ describe('Linked List', () => {
     });
   });
 
-  // describe('size', () => {
-  //   it('should return the number of nodes in the list', () => {
-  //     expect(list.size()).toBe(0);
+  describe('size', () => {
+    it('should return the number of nodes in the list', () => {
+      expect(list.size()).toBe(0);
 
-  //     list.prepend(-1.2);
-  //     expect(list.size()).toBe(1);
+      list.prepend(-1.2);
+      expect(list.size()).toBe(1);
 
-  //     list.prepend(30);
-  //     list.append(15.85);
-  //     expect(list.size()).toBe(3);
+      list.prepend(30);
+      list.append(15.85);
+      expect(list.size()).toBe(3);
 
-  //     list.pop();
-  //     expect(list.size()).toBe(2);
+      list.pop();
+      expect(list.size()).toBe(2);
 
-  //     list.shift();
-  //     expect(list.size()).toBe(2);
-  //   });
-  // });
+      list.shift();
+      expect(list.size()).toBe(1);
+    });
+  });
 });
