@@ -8,15 +8,15 @@
 import LinkedList, { Node } from './linked-list';
 
 interface Stack<T> {
-  peek(): Node<T>,
-  push(v: T): Node<T>,
+  peek(): ?Node<T>,
+  push(v: T): void,
   pop(): ?Node<T>,
   toString(): string,
 }
 
-export function createStack<T>(v: T): Stack<T> {
-  const stack = new LinkedList(v);
-  let top = stack.head;
+export function createStack<T>(): Stack<T> {
+  const stack = new LinkedList();
+  let top = null;
 
   return {
     peek() {
@@ -24,12 +24,12 @@ export function createStack<T>(v: T): Stack<T> {
     },
 
     push(v) {
-      top = stack.append(v);
-      return top;
+      stack.prepend(v);
+      top = stack.head;
     },
 
     pop() {
-      return stack.pop();
+      return stack.shift();
     },
 
     toString() {
@@ -37,28 +37,3 @@ export function createStack<T>(v: T): Stack<T> {
     },
   };
 }
-
-// export class Stack<T> {
-//   stack: LinkedList<T>;
-//   top: Node<T>;
-
-//   constructor(v: T): void {
-//     const list = new LinkedList(v);
-
-//     this.stack = list;
-//     this.top = list.head;
-//   }
-
-//   push(v: T): Node<T> {
-//     this.top = this.stack.append(v);
-//     return this.top;
-//   }
-
-//   pop(): ?Node<T> {
-//     return this.stack.pop();
-//   }
-
-//   toString(): string {
-//     return this.stack.toString();
-//   }
-// }

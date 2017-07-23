@@ -2,7 +2,7 @@
 
 import LinkedList, { Node } from './linked-list';
 
-function expectValue<T>(node: ?Node<T>, value: T) {
+export function expectValue<T>(node: ?Node<T>, value: T) {
   expect(node).toEqual(expect.objectContaining({ value }));
 }
 
