@@ -4,8 +4,6 @@
   @flow
 */
 
-import { isNil } from './utils';
-
 export class Node<T> {
   value: T;
   next: ?Node<T>;
@@ -33,7 +31,7 @@ class LinkedList<T> {
   prepend(v: T): void {
     const newHead = new Node(v);
 
-    if (!this.isEmpty()) {
+    if (this.head) {
       newHead.next = this.head;
     }
 
@@ -42,91 +40,101 @@ class LinkedList<T> {
 
   // O(1) time
   shift(): ?Node<T> {
-    if (this.isEmpty()) {
+    // TODO: figure out how to type so that I can use `this.isEmpty()` here
+    //   really don't like not being able to express intent that `!this.head`
+    //   actually means the list is empty.
+    // ---
+    // flow don't understand that `this.head` is already checked
+    // if doing `if (this.isEmpty()) { return null; }`
+    if (!this.head) {
       return null;
     }
 
     const prevHead = this.head;
-    // $FlowFixMe: isEmpty already checked that `this.head` is not null
     this.head = this.head.next;
     return prevHead;
   }
 
   // O(n) time (worst case)
   append(v: T): void {
-    if (this.isEmpty()) {
+    if (!this.head) {
       this.head = new Node(v);
       return;
     }
 
     let current = this.head;
-    // $FlowFixMe: isEmpty already checked that `this.head` is not null
     while (current.next) {
       current = current.next;
     }
-    // $FlowFixMe: isEmpty already checked that `this.head` is not null
     current.next = new Node(v);
   }
 
   // O(n) time (worst case)
   pop(): ?Node<T> {
-    if (this.isEmpty()) {
-      return null;
-    }
-
-    if (this.size() === 1) {
+    if (!this.head || !this.head.next) {
       return this.shift();
     }
 
     let current = this.head;
-    // $FlowFixMe: isEmpty already checked that `this.head` is not null
-    while (current.next) {
+    let removed = null;
+
+    // for a linked list `while (current.next)` is enough
+    // (we don't really need `current` check)
+    // but I guess Flow cannot guarantee that
+    while (current && current.next) {
       if (!current.next.next) {
-        const last = current.next;
-        // $FlowFixMe: isEmpty already checked that `this.head` is not null
+        removed = current.next;
         current.next = null;
-        return last;
+        break;
       }
 
       current = current.next;
     }
+
+    return removed;
   }
 
   // O(n) time (worst case)
   removeWithValue(v: T): ?Node<T> {
-    if (this.isEmpty()) {
-      return null;
-    }
-
-    if (this.size() === 1) {
+    // the first two checks `!this.head` (isEmpty)
+    // and `!this.head.next` (head is the only node)
+    // happens in all "removal" methods
+    // is there a better and expressive way to handle this?
+    // (must maintain reability)
+    // ---
+    // special case for `this.head.value === v`
+    // because `this.head` needs to be updated when removing head
+    if (!this.head || !this.head.next || this.head.value === v) {
       return this.shift();
     }
 
-    if (this.head.value === v) {
-      const removed = this.head;
-      this.head = this.head.next;
-      return removed;
-    }
-
     let current = this.head;
-    while (current.next) {
+    let removed = null;
+
+    while (current && current.next) {
       if (current.next.value === v) {
-        const removed = current.next;
+        removed = current.next
         // skip the current.next and use the one after
         current.next = current.next.next;
-        return removed;
+        break;
       }
 
       current = current.next;
     }
 
-    // `v` is not in the linked list
-    return null;
+    // `v` is not in the list
+    return removed;
   }
 
   // O(1) time
   isEmpty(): boolean {
-    return isNil(this.head);
+    return !this.head;
+  }
+
+  _removeLastNode(): ?Node<T> {
+    const prevHead = this.head;
+    this.head = null;
+    return prevHead;
   }
 
   // O(n) time

@@ -2,6 +2,10 @@
 
 import LinkedList, { Node } from './linked-list';
 
+function expectValue<T>(node: ?Node<T>, value: T) {
+  expect(node).toEqual(expect.objectContaining({ value }));
+}
+
 describe('Linked List', () => {
   let list;
 
@@ -40,16 +44,14 @@ describe('Linked List', () => {
 
     it('should return the removed node', () => {
       list.prepend(8);
-      // $FlowExpectError: `removed` is nullable - we know that it is not here
-      expect(list.shift().value).toEqual(8);
+      expectValue(list.shift(), 8);
     });
 
     it('should remove the last node correctly', () => {
       list.append(64);
 
-      // $FlowExpectError: `removed` is nullable - we know that it is not here
-      expect(list.shift().value).toBe(64);
-      expect(list.isEmpty()).toBe(true);
+      expectValue(list.shift(), 64);
+      expect(list.toString()).toBe('');
     });
 
     it('should not remove node and return `null` when the list is empty', () => {
@@ -87,16 +89,14 @@ describe('Linked List', () => {
       list.prepend(4);
       list.append(16);
 
-      // $FlowExpectError: `removed` is nullable - we know that it is not here
-      expect(list.pop().value).toEqual(16);
+      expectValue(list.pop(), 16);
     });
 
     it('should remove the last node correctly', () => {
       list.append(8);
 
-      // $FlowExpectError: `removed` is nullable - we know that it is not here
-      expect(list.pop().value).toBe(8);
-      expect(list.isEmpty()).toBe(true);
+      expectValue(list.pop(), 8);
+      expect(list.toString()).toBe('');
     });
 
     it('should not remove node and return `null` when the list is empty', () => {
@@ -128,7 +128,7 @@ describe('Linked List', () => {
     });
 
     it('should return the reference of the removed node', () => {
-      expect(list.removeWithValue(4).value).toBe(4);
+      expectValue(list.removeWithValue(4), 4);
     });
 
     it('should remove the head node when applicable', () => {
