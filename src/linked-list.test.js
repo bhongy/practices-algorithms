@@ -1,115 +1,113 @@
 // @flow
 
-import LinkedList from './linked-list';
+import LinkedList, { Node } from './linked-list';
 
 describe('Linked List', () => {
   let list;
 
   beforeEach(() => {
-    list = new LinkedList(1);
+    list = new LinkedList();
   });
 
-  it('should start with a node when instantiate', () => {
-    expect(list.toString()).toBe('1');
+  it('should start with no node when instantiate', () => {
+    expect(list.toString()).toBe('');
   });
 
-  it('should prepend and update head with the new node', () => {
-    list.prepend(99);
-    list.prepend(100);
+  describe('prepend', () => {
+    it('should add the new node to the beginning of the list and update head', () => {
+      list.prepend(5);
+      list.prepend(99);
+      list.prepend(100);
 
-    expect(list.toString()).toBe('100 -> 99 -> 1');
+      expect(list.toString()).toBe('100 -> 99 -> 5');
+    });
   });
 
-  it('should return the reference of the prepended node', () => {
-    const newNode = list.prepend(24.01);
-    expect(newNode.value).toBe(24.01);
+  describe('shift', () => {
+    it('should remove the head node and update head reference', () => {
+      list.prepend(5);
+      list.prepend(0);
+      list.prepend(10);
+
+      expect(list.toString()).toBe('10 -> 0 -> 5');
+
+      list.shift();
+      expect(list.toString()).toBe('0 -> 5');
+
+      list.shift();
+      expect(list.toString()).toBe('5');
+    });
+
+    it('should return the removed node', () => {
+      list.prepend(8);
+      // $FlowExpectError: `removed` is nullable - we know that it is not here
+      expect(list.shift().value).toEqual(8);
+    });
+
+    it('should remove the last node correctly', () => {
+      list.append(64);
+
+      // $FlowExpectError: `removed` is nullable - we know that it is not here
+      expect(list.shift().value).toBe(64);
+      expect(list.isEmpty()).toBe(true);
+    });
+
+    it('should not remove node and return `null` when the list is empty', () => {
+      expect(list.shift()).toBeNull();
+      expect(() => list.shift()).not.toThrow();
+    });
   });
 
-  it('should shift head node and update head reference', () => {
-    list.prepend(5);
-    list.prepend(10);
+  describe('append', () => {
+    it('should add the new node to the end of the list', () => {
+      list.append(0);
+      list.append(-2);
+      list.append(1.6);
 
-    expect(list.toString()).toBe('10 -> 5 -> 1');
-
-    list.shift();
-    expect(list.toString()).toBe('5 -> 1');
-
-    list.shift();
-    expect(list.toString()).toBe('1');
+      expect(list.toString()).toBe('0 -> -2 -> 1.6');
+    });
   });
 
-  it('should return the reference of the shifted node', () => {
-    list.prepend(10);
-    list.prepend(100);
-    expect(list.toString()).toBe('100 -> 10 -> 1');
+  describe('pop', () => {
+    it('should remove the tail node and update head reference', () => {
+      list.append(1);
+      list.prepend(4);
+      list.append(16);
 
-    const removed = list.shift();
-    // $FlowExpectError: `removed` is nullable (we know, here, it is not)
-    expect(removed.value).toBe(100);
-  });
+      expect(list.toString()).toBe('4 -> 1 -> 16');
 
-  it('should not shift when there is one node left', () => {
-    list.shift();
-    expect(list.toString()).toBe('1');
-  });
+      list.pop();
+      expect(list.toString()).toBe('4 -> 1');
 
-  it('should return `undefined` when trying to shift the last remaining node', () => {
-    const removed = list.shift();
-    expect(removed).toBeUndefined();
-  });
+      list.pop();
+      expect(list.toString()).toBe('4');
+    });
 
-  it('should append with the new node correctly', () => {
-    list.append(-2);
-    list.append(1.6);
+    it('should return the removed node', () => {
+      list.prepend(4);
+      list.append(16);
 
-    expect(list.toString()).toBe('1 -> -2 -> 1.6');
-  });
+      // $FlowExpectError: `removed` is nullable - we know that it is not here
+      expect(list.pop().value).toEqual(16);
+    });
 
-  it('should return the reference of the appended node', () => {
-    const newNode = list.append(981);
-    expect(newNode.value).toBe(981);
-  });
+    it('should remove the last node correctly', () => {
+      list.append(8);
 
-  it('should pop the last node', () => {
-    list.prepend(14);
-    list.append(-14);
+      // $FlowExpectError: `removed` is nullable - we know that it is not here
+      expect(list.pop().value).toBe(8);
+      expect(list.isEmpty()).toBe(true);
+    });
 
-    expect(list.toString()).toBe('14 -> 1 -> -14');
-
-    list.pop();
-    expect(list.toString()).toBe('14 -> 1');
-
-    list.pop();
-    expect(list.toString()).toBe('14');
-  });
-
-  // power of writing tests! I implemented this wrong and caught it with the test.
-  it('should return the reference of the popped node', () => {
-    list.prepend(4);
-    list.append(16);
-    expect(list.toString()).toBe('4 -> 1 -> 16');
-
-    const removed = list.pop();
-    // $FlowExpectError: `removed` is nullable (we know, here, it is not)
-    expect(removed.value).toBe(16);
-  });
-
-  it('should not pop when there is one node left', () => {
-    list.pop();
-    expect(list.toString()).toBe('1');
-  });
-
-  it('should return `undefined` when trying to shift the last remaining node', () => {
-    const removed = list.pop();
-    expect(removed).toBeUndefined();
+    it('should not remove node and return `null` when the list is empty', () => {
+      expect(list.pop()).toBeNull();
+      expect(() => list.shift()).not.toThrow();
+    });
   });
 
   describe('removeWithValue', () => {
     beforeEach(() => {
-      list.append(3);
-      list.append(2);
-      list.append(3);
-      list.append(4);
+      [1, 3, 2, 3, 4].forEach(v => list.append(v));
     });
 
     it('should not change the list if the value is not found', () => {
@@ -117,9 +115,8 @@ describe('Linked List', () => {
       expect(list.toString()).toBe('1 -> 3 -> 2 -> 3 -> 4');
     });
 
-    it('should return `undefined` if no removal is performed', () => {
-      const removed = list.removeWithValue(10);
-      expect(removed).toBeUndefined();
+    it('should return `null` if no removal is performed', () => {
+      expect(list.removeWithValue(10)).toBeNull();
     });
 
     it('should remove the first node containing the value', () => {
@@ -130,25 +127,53 @@ describe('Linked List', () => {
       expect(list.toString()).toBe('1 -> 3 -> 4');
     });
 
-    // same. implemented this incorrectly and caught it with the test.
     it('should return the reference of the removed node', () => {
-      const removed = list.removeWithValue(4);
-      // $FlowExpectError: `removed` is nullable (we know, here, it is not)
-      expect(removed.value).toBe(4);
-    })
+      expect(list.removeWithValue(4).value).toBe(4);
+    });
 
     it('should remove the head node when applicable', () => {
       list.removeWithValue(1);
       expect(list.toString()).toBe('3 -> 2 -> 3 -> 4');
     });
 
-    it('should not remove when there is one node left', () => {
-      list = new LinkedList(0);
+    it('should not remove node and return `null` when the list is empty', () => {
+      list = new LinkedList();
 
-      const removed = list.removeWithValue(0);
-
-      expect(list.toString()).toBe('0');
-      expect(removed).toBeUndefined();
+      expect(list.removeWithValue(1)).toBeNull();
+      expect(list.removeWithValue(NaN)).toBeNull();
+      expect(() => list.shift()).not.toThrow();
     });
   });
+
+  describe('isEmpty', () => {
+    it('should return `true` when head is null', () => {
+      expect(list.isEmpty()).toBe(true);
+    });
+
+    it('should return `false` when head is not null', () => {
+      list.prepend('^_^');
+
+      expect(list.head).not.toBeNull();
+      expect(list.isEmpty()).toBe(false);
+    });
+  });
+
+  // describe('size', () => {
+  //   it('should return the number of nodes in the list', () => {
+  //     expect(list.size()).toBe(0);
+
+  //     list.prepend(-1.2);
+  //     expect(list.size()).toBe(1);
+
+  //     list.prepend(30);
+  //     list.append(15.85);
+  //     expect(list.size()).toBe(3);
+
+  //     list.pop();
+  //     expect(list.size()).toBe(2);
+
+  //     list.shift();
+  //     expect(list.size()).toBe(2);
+  //   });
+  // });
 });
