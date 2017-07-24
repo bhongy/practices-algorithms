@@ -26,6 +26,7 @@ describe('Stack', () => {
     expect(stack.toString()).toBe('banana -> apple -> smoothie');
   });
 
+  // could have tested that it delegates the call to LinkedList shift method
   describe('pop', () => {
     it('should remove the node from the top of the stack', () => {
       stack.pop();
@@ -55,6 +56,29 @@ describe('Stack', () => {
 
       expect(stack.pop()).toBeNull();
       expect(() => stack.pop()).not.toThrow();
+    });
+  });
+
+  describe('isEmpty', () => {
+    it('should return boolean result whether the stack is empty', () => {
+      stack = createStack();
+      expect(stack.isEmpty()).toBe(true);
+
+      stack.push('^_^');
+      expect(stack.isEmpty()).toBe(false);
+
+      stack.pop();
+      expect(stack.isEmpty()).toBe(true);
+    });
+  });
+
+  describe('size', () => {
+    it('should return the size of the stack', () => {
+      stack = createStack();
+      expect(stack.size()).toBe(0);
+
+      ['&39', '4$10', '(3+#9-/'].forEach(v => stack.push(v));
+      expect(stack.size()).toBe(3);
     });
   });
 });

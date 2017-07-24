@@ -11,6 +11,8 @@ interface Stack<T> {
   peek(): ?Node<T>,
   push(v: T): void,
   pop(): ?Node<T>,
+  isEmpty(): boolean,
+  size(): number,
   toString(): string,
 }
 
@@ -30,6 +32,14 @@ export function createStack<T>(): Stack<T> {
 
     pop() {
       return stack.shift();
+    },
+
+    isEmpty() {
+      return stack.isEmpty();
+    },
+
+    size() {
+      return stack.size();
     },
 
     toString() {
