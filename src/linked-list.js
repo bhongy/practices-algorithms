@@ -131,12 +131,6 @@ class LinkedList<T> {
     return !this.head;
   }
 
-  _removeLastNode(): ?Node<T> {
-    const prevHead = this.head;
-    this.head = null;
-    return prevHead;
-  }
-
   // O(n) time
   _forEach(iteratee: (node: Node<T>) => void): void {
     let current = this.head;
