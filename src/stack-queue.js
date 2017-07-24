@@ -18,18 +18,13 @@ export interface Stack<T> {
 
 export function createStack<T>(): Stack<T> {
   const stack = new LinkedList();
-  let top = null;
 
   return {
     peek() {
-      return top;
+      return stack.head;
     },
 
-    push(v) {
-      stack.prepend(v);
-      top = stack.head;
-    },
-
+    push: stack.prepend.bind(stack),
     pop: stack.shift.bind(stack),
     isEmpty: stack.isEmpty.bind(stack),
     size: stack.size.bind(stack),
