@@ -7,7 +7,7 @@
 
 import LinkedList, { Node } from './linked-list';
 
-interface Stack<T> {
+export interface Stack<T> {
   peek(): ?Node<T>,
   push(v: T): void,
   pop(): ?Node<T>,
@@ -30,20 +30,30 @@ export function createStack<T>(): Stack<T> {
       top = stack.head;
     },
 
-    pop() {
-      return stack.shift();
-    },
+    pop: stack.shift.bind(stack),
+    isEmpty: stack.isEmpty.bind(stack),
+    size: stack.size.bind(stack),
+    toString: stack.toString.bind(stack),
+  };
+}
 
-    isEmpty() {
-      return stack.isEmpty();
-    },
+export interface Queue<T> {
+  enqueue(v: T): void,
+  dequeue(): ?Node<T>,
+  isEmpty(): boolean,
+  size(): number,
+  toString(): string,
+}
 
-    size() {
-      return stack.size();
-    },
+export function createQueue<T>(): Queue<T> {
+  const queue = new LinkedList();
 
-    toString() {
-      return stack.toString();
-    },
+  return {
+    enqueue: queue.prepend.bind(queue),
+    // O(n) time
+    dequeue: queue.pop.bind(queue),
+    isEmpty: queue.isEmpty.bind(queue),
+    size: queue.size.bind(queue),
+    toString: queue.toString.bind(queue),
   };
 }

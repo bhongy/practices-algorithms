@@ -2,7 +2,8 @@
 
 import LinkedList, { Node } from './linked-list';
 
-export function expectValue<T>(node: ?Node<T>, value: T) {
+// "importing" this module to other modules will cause the tests to double run
+function expectValue<T>(node: ?Node<T>, value: T) {
   expect(node).toEqual(expect.objectContaining({ value }));
 }
 
