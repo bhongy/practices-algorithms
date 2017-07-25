@@ -1,6 +1,7 @@
 import {
   romanToInteger,
   romanToIntegerSimpler,
+  integerToRomanSimpler,
 } from './integer-roman-conversion';
 
 const romanToIntegerTestcases: Array<[string, number]> = [
@@ -43,6 +44,22 @@ describe('Roman to Integer (1 to 3999) - simpler', () => {
   romanToIntegerTestcases.forEach(([input, expected]: [string, number]) => {
     it(`should convert ${input} to ${expected}`, () => {
       expect(romanToIntegerSimpler(input)).toBe(expected);
+    });
+  });
+});
+
+function swapKeyValue([k, v]: [number, string]): [string, number] {
+  return [v, k];
+}
+
+const integerToRomanTestcases: Array<
+  [number, string]
+> = romanToIntegerTestcases.map(swapKeyValue);
+
+describe('Integer to Roman (1 to 3999) - simpler', () => {
+  integerToRomanTestcases.forEach(([input, expected]: [number, string]) => {
+    it(`should convert ${input} to ${expected}`, () => {
+      expect(integerToRomanSimpler(input)).toBe(expected);
     });
   });
 });

@@ -3,8 +3,6 @@
 
   https://leetcode.com/problems/roman-to-integer
 
-  TODO: try to convert from integer to roman numerals in the future.
-
   @flow
 */
 
@@ -68,6 +66,39 @@ export function romanToIntegerSimpler(roman: string): number {
 
     position -= 1;
   }
+
+  return result;
+}
+
+// TODO: implement only without 2 character map - e.g. 'CM', 'IX'
+const integersToRomansMap: Array<[number, string]> = [
+  [1000, 'M'],
+  [900, 'CM'],
+  [500, 'D'],
+  [400, 'CD'],
+  [100, 'C'],
+  [90, 'XC'],
+  [50, 'L'],
+  [40, 'XL'],
+  [10, 'X'],
+  [9, 'IX'],
+  [5, 'V'],
+  [4, 'IV'],
+  [1, 'I'],
+];
+
+export function integerToRomanSimpler(int: number): string {
+  let result = '';
+
+  integersToRomansMap.forEach(([integer, romanChar]: [
+    number,
+    string,
+  ]): void => {
+    while (int >= integer) {
+      result += romanChar;
+      int -= integer;
+    }
+  });
 
   return result;
 }
