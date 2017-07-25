@@ -3,8 +3,6 @@
 
   https://leetcode.com/problems/roman-to-integer
 
-  TODO: try to convert from integer to roman numerals in the future.
-
   @flow
 */
 
@@ -68,6 +66,84 @@ export function romanToIntegerSimpler(roman: string): number {
 
     position -= 1;
   }
+
+  return result;
+}
+
+// Javascript object key must be string
+// numbers will be converted with `toString` if given as keys
+const _romanFor: { [key: string]: string } = {
+  '1': 'i',
+  '5': 'v',
+  '10': 'x',
+  '50': 'l',
+  '100': 'c',
+  '500': 'd',
+  '1000': 'm',
+};
+
+// just convenience so we don't have to deal with implicit type coercion
+// when using number to as an object key
+function romanFor(key: number): string {
+  return _romanFor[key.toString()];
+}
+
+function repeat(char: string, count: number): string {
+  return new Array(count + 1).join(char);
+}
+
+export function integerToRoman(int: number): string {
+  let result = '';
+
+  [1000, 500, 100, 50, 10, 5, 1].forEach(factor => {
+    while (int >= factor) {
+      const n = parseInt(int / factor);
+      const next = n < 4
+        ? repeat(romanFor(factor), n)
+        : romanFor(factor) + romanFor(factor * 5);
+
+      result += next;
+      int -= n * factor;
+    }
+
+    // after the while loop, `int` is less than the current `factor`
+    if (int >= factor * 9 / 10) {
+      result += romanFor(factor / 10) + romanFor(factor);
+      int -= factor * 9 / 10;
+    }
+  });
+
+  return result.toUpperCase();
+}
+
+const integersToRomansMap: Array<[number, string]> = [
+  [1000, 'M'],
+  [900, 'CM'],
+  [500, 'D'],
+  [400, 'CD'],
+  [100, 'C'],
+  [90, 'XC'],
+  [50, 'L'],
+  [40, 'XL'],
+  [10, 'X'],
+  [9, 'IX'],
+  [5, 'V'],
+  [4, 'IV'],
+  [1, 'I'],
+];
+
+export function integerToRomanSimpler(int: number): string {
+  let result = '';
+
+  integersToRomansMap.forEach(([integer, romanChar]: [
+    number,
+    string,
+  ]): void => {
+    while (int >= integer) {
+      result += romanChar;
+      int -= integer;
+    }
+  });
 
   return result;
 }
