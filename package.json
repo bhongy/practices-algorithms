@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "build": "babel src --out-dir build --ignore test.js",
-    "flow-coverage": "flow-coverage-report -i './src/**/*.js' -t html",
+    "flow-coverage": "flow-coverage-report -i './src/**/*.js' -t html -t text",
     "test": "jest --config=.jestrc"
   },
   "devDependencies": {
