@@ -92,6 +92,10 @@ function repeat(char: string, count: number): string {
   return new Array(count + 1).join(char);
 }
 
+function isBase10(value: number): boolean {
+  return Number.isInteger(Math.log10(value));
+}
+
 export function integerToRoman(int: number): string {
   let result = '';
 
@@ -107,7 +111,7 @@ export function integerToRoman(int: number): string {
     }
 
     // after the while loop, `int` is less than the current `factor`
-    if (int >= factor * 9 / 10) {
+    if (isBase10(factor) && int >= factor * 9 / 10) {
       result += romanFor(factor / 10) + romanFor(factor);
       int -= factor * 9 / 10;
     }
