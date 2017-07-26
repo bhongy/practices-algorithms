@@ -1,0 +1,24 @@
+{
+  "parser": "babel-eslint",
+  "extends": "airbnb-base",
+  "env": {
+    "jest": true
+  },
+  "rules": {
+    "no-plusplus": [
+      "error",
+      // very common to do this and it is clear
+      { "allowForLoopAfterthoughts": true }
+    ],
+    "quote-props": [
+      "error",
+      "as-needed",
+      {
+        "unnecessary": true,
+        // since we use flow and type object keys as string correctly
+        // rather than rely on implicit number -> string type coercion
+        "numbers": true
+      }
+    ]
+  }
+}
