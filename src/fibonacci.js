@@ -51,6 +51,7 @@ function chiragAgarwalFibonacci(n: number): number {
   const isEven = (v: number) => v % 2 === 0;
   const k = isEven(n) ? n / 2 : (n + 1) / 2;
 
+  /* eslint-disable no-mixed-operators */
   result[n] = isEven(n)
     ? (2 * fib(k - 1) + fib(k)) * fib(k)
     : fib(k) * fib(k) + fib(k - 1) * fib(k - 1);

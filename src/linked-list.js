@@ -92,9 +92,9 @@ class LinkedList<T> {
 
   // O(n) time
   toString(): string {
-    let result: Array<string> = [];
+    const result: Array<string> = [];
 
-    this.forEach(v => {
+    this.forEach((v) => {
       result.push(JSON.stringify(v));
     });
 

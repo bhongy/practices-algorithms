@@ -7,7 +7,7 @@ describe('Meeting Rooms', () => {
     [
       [[0, 30], [5, 10], [15, 20]],
       [[5, 8], [6, 8]],
-    ].forEach(schedule => {
+    ].forEach((schedule) => {
       expect(canAttendMeetings(schedule)).toBe(false);
     });
   });
@@ -18,7 +18,7 @@ describe('Meeting Rooms', () => {
       [[60, 77]],
       [[120, 360], [15, 25], [360, 385]],
       [[1, 5], [8, 9]],
-    ].forEach(schedule => {
+    ].forEach((schedule) => {
       expect(canAttendMeetings(schedule)).toBe(true);
     });
   });

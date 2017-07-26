@@ -4,7 +4,7 @@ import removeDuplicatesVersions
   from './remove-duplicates-sorted-array-constant-space';
 
 describe('Remove Duplicates from Sorted Array', () => {
-  removeDuplicatesVersions.forEach(removeDuplicates => {
+  removeDuplicatesVersions.forEach((removeDuplicates) => {
     describe(`... ${removeDuplicates.name}`, () => {
       it('should de-duped the original array (mutate)', () => {
         [

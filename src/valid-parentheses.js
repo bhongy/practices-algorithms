@@ -29,10 +29,7 @@ function isValidParentheses(source: string): boolean {
     if (isOpenBrace) {
       pointer += 1;
       openBraces[pointer] = char;
-      continue;
-    }
-
-    if (isClosingBrace) {
+    } else if (isClosingBrace) {
       const lastOpenBrace = openBraces[pointer];
 
       if (char !== closeBraceOf[lastOpenBrace]) {
