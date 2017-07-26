@@ -2,9 +2,9 @@
 
 import isPalindrome from './valid-palindrome';
 
+// data from http://www.palindromelist.net
 describe('Valid Palindrome', () => {
   it('should return `true` for the palindrome inputs', () => {
-    // data from http://www.palindromelist.net
     [
       '',
       '12345678987654321',
@@ -18,7 +18,7 @@ describe('Valid Palindrome', () => {
       'No lemons, no melon.',
       '“Reviled did I live,” said I, “as evil I did deliver!”',
       'Wassamassaw',
-    ].forEach(input => {
+    ].forEach((input) => {
       expect(isPalindrome(input)).toBe(true);
     });
   });
@@ -28,7 +28,7 @@ describe('Valid Palindrome', () => {
       '1234123',
       'Madam in EEden, I’m Adam.',
       'Simple phrase that is not a palindrome.',
-    ].forEach(input => {
+    ].forEach((input) => {
       expect(isPalindrome(input)).toBe(false);
     });
   });

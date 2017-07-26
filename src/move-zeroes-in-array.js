@@ -13,6 +13,9 @@
   @flow
 */
 
+// disable eslint rule because this is intended to mutate the input
+/* eslint-disable no-param-reassign */
+
 // mutate the `nums` array, do not return anything
 // O(n) time, O(1) space
 // my solution is probably the worst (complex) of these three solutions. :'(
@@ -23,17 +26,14 @@ function mySolution(nums: Array<number>): void {
     // look ahead whether the next item to replace `nums[i + zeroCount]` is zero
     // if so, look at the one after that if it is zero too (and so on)
     while (nums[i + zeroCount] === 0) {
-      zeroCount++;
+      zeroCount += 1;
     }
 
     // populate the end of the array with `0`s
     // comes after zeroCount loop to address trailing zeros
     if (i >= nums.length - zeroCount) {
       nums[i] = 0;
-      continue;
-    }
-
-    if (zeroCount > 0) {
+    } else if (zeroCount > 0) {
       nums[i] = nums[i + zeroCount];
     }
   }
@@ -49,14 +49,14 @@ function insertMethod(nums: Array<number>): void {
   for (let i = 0; i < nums.length; i++) {
     if (nums[i] !== 0) {
       nums[insertPosition] = nums[i];
-      insertPosition++;
+      insertPosition += 1;
     }
   }
 
   // fill the rest with `0`s
   while (insertPosition < nums.length) {
     nums[insertPosition] = 0;
-    insertPosition++;
+    insertPosition += 1;
   }
 }
 
@@ -72,12 +72,12 @@ function swapMethod(nums: Array<number>): void {
   for (let i = 0; i < nums.length; i++) {
     if (nums[i] !== 0) {
       // temp can or cannot be `0` - it does not matter
-      let temp = nums[nextNonZeroPosition];
+      const temp = nums[nextNonZeroPosition];
       // due to the loop condition, `nums[i]` is non-zero
       nums[nextNonZeroPosition] = nums[i];
       nums[i] = temp;
 
-      nextNonZeroPosition++;
+      nextNonZeroPosition += 1;
     }
   }
 }

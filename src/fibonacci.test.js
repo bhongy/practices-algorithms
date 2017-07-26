@@ -3,7 +3,7 @@
 import versions from './fibonacci';
 
 describe('Fibonacci', () => {
-  versions.forEach(fibonacci => {
+  versions.forEach((fibonacci) => {
     describe(`${fibonacci.name}`, () => {
       [
         [0, 0],

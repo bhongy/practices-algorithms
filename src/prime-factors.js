@@ -9,12 +9,13 @@
 
 function getPrimeFactors(input: number): Array<number> {
   const factors = [];
+  let reminder = input;
   let divisor = 2;
 
-  while (divisor <= input) {
-    if (input % divisor === 0) {
+  while (divisor <= reminder) {
+    if (reminder % divisor === 0) {
       factors.push(divisor);
-      input /= divisor;
+      reminder /= divisor;
     } else {
       divisor += divisor === 2 ? 1 : 2;
     }

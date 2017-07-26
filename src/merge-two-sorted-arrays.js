@@ -21,10 +21,11 @@ function mergeSortedArrays(a: Array<number>, b: Array<number>): Array<number> {
   if (lenA === 0) return b;
   if (lenB === 0) return a;
 
-  let merged = [];
+  const merged: Array<number> = [];
   let iA = 0;
   let iB = 0;
 
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     // want to try a different style
     if (iA >= lenA && iB >= lenB) {
@@ -40,10 +41,10 @@ function mergeSortedArrays(a: Array<number>, b: Array<number>): Array<number> {
     if (iA >= lenA || valA > valB) {
       // practice: avoid using Array.prototype.push
       merged[iA + iB] = valB;
-      iB++;
+      iB += 1;
     } else {
       merged[iA + iB] = valA;
-      iA++;
+      iA += 1;
     }
   }
 

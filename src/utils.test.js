@@ -22,7 +22,7 @@ describe('Utils', () => {
         'foo',
         { foo: 'bar' },
         [1, 2, 3],
-      ].forEach(v => {
+      ].forEach((v) => {
         expect(isNil(v)).toBe(false);
       });
     });

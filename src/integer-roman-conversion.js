@@ -72,7 +72,7 @@ export function romanToIntegerSimpler(roman: string): number {
 
 // Javascript object key must be string
 // numbers will be converted with `toString` if given as keys
-const _romanFor: { [key: string]: string } = {
+const romanForMap: { [key: string]: string } = {
   '1': 'i',
   '5': 'v',
   '10': 'x',
@@ -85,7 +85,7 @@ const _romanFor: { [key: string]: string } = {
 // just convenience so we don't have to deal with implicit type coercion
 // when using number to as an object key
 function romanFor(key: number): string {
-  return _romanFor[key.toString()];
+  return romanForMap[key.toString()];
 }
 
 function repeat(char: string, count: number): string {
@@ -97,23 +97,24 @@ function isBase10(value: number): boolean {
 }
 
 export function integerToRoman(int: number): string {
+  let remaining = int;
   let result = '';
 
-  [1000, 500, 100, 50, 10, 5, 1].forEach(factor => {
-    while (int >= factor) {
-      const n = parseInt(int / factor);
+  [1000, 500, 100, 50, 10, 5, 1].forEach((factor) => {
+    while (remaining >= factor) {
+      const n = parseInt(remaining / factor, 10);
       const next = n < 4
         ? repeat(romanFor(factor), n)
         : romanFor(factor) + romanFor(factor * 5);
 
       result += next;
-      int -= n * factor;
+      remaining -= n * factor;
     }
 
     // after the while loop, `int` is less than the current `factor`
-    if (isBase10(factor) && int >= factor * 9 / 10) {
+    if (isBase10(factor) && remaining >= factor * (9 / 10)) {
       result += romanFor(factor / 10) + romanFor(factor);
-      int -= factor * 9 / 10;
+      remaining -= factor * (9 / 10);
     }
   });
 
@@ -137,15 +138,16 @@ const integersToRomansMap: Array<[number, string]> = [
 ];
 
 export function integerToRomanSimpler(int: number): string {
+  let remaining = int;
   let result = '';
 
   integersToRomansMap.forEach(([integer, romanChar]: [
     number,
     string,
   ]): void => {
-    while (int >= integer) {
+    while (remaining >= integer) {
       result += romanChar;
-      int -= integer;
+      remaining -= integer;
     }
   });
 

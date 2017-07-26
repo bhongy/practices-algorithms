@@ -8,7 +8,6 @@
 // O(n) time where n is the higher value between a, b
 // O(1) space
 function findGreatestCommonDivisor(a: number, b: number): number {
-  let divisor = 2;
   let greatestCommonDivisor = 1;
 
   for (let divisor = 2; a >= divisor && b >= divisor; divisor++) {
