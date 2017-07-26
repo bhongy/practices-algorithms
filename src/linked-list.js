@@ -113,7 +113,7 @@ class LinkedList<T> {
 
     while (current && current.next) {
       if (current.next.value === v) {
-        removed = current.next
+        removed = current.next;
         // skip the current.next and use the one after
         current.next = current.next.next;
         break;
@@ -132,7 +132,7 @@ class LinkedList<T> {
   }
 
   // O(n) time
-  _forEach(iteratee: (node: Node<T>) => void): void {
+  forEach(iteratee: (node: Node<T>) => void): void {
     let current = this.head;
 
     while (current) {
@@ -142,11 +142,12 @@ class LinkedList<T> {
   }
 
   // O(n) time
-  _reduce<R>(
+  reduce<R>(
     iteratee: (accumulator: R, node: Node<T>) => R,
-    accumulator: R
+    accumulator: R,
   ): R {
-    this._forEach((node: Node<T>): void => {
+    this.forEach((node: Node<T>): void => {
+      // eslint-disable-next-line no-param-reassign
       accumulator = iteratee(accumulator, node);
     });
 
@@ -155,12 +156,13 @@ class LinkedList<T> {
 
   // O(n) time
   size(): number {
-    return this._reduce(length => length += 1, 0);
+    // eslint-disable-next-line no-return-assign, no-param-reassign
+    return this.reduce(length => length += 1, 0);
   }
 
   // O(n) time
   toString(): string {
-    const values = this._reduce((acc: Array<string>, node) => {
+    const values = this.reduce((acc: Array<string>, node) => {
       // $FlowFixMe: uncovered. how to type that `T` must have `toString` method
       acc.push(node.value.toString());
       return acc;

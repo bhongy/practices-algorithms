@@ -1,7 +1,8 @@
 // @flow
 
 /*
-  Given an array of integers, return indices of the two numbers such that they add up to a specific target.
+  Given an array of integers, return indices of the two numbers
+  such that they add up to a specific target.
   https://leetcode.com/problems/two-sum
 */
 
@@ -58,7 +59,7 @@ function twoPassFunctional(nums: Array<number>, target: number): Result {
 
   const hashmap = nums.reduce(
     (acc, value, index) => acc.set(value, index),
-    new Map()
+    new Map(),
   );
 
   // check the match

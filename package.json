@@ -9,14 +9,20 @@
   "scripts": {
     "build": "babel src --out-dir build --ignore test.js",
     "flow-coverage": "flow-coverage-report -i './src/**/*.js' -t html -t text",
+    "lint": "eslint 'src/**/*.js'",
     "test": "jest --config=.jestrc"
   },
   "devDependencies": {
     "babel-cli": "6.24.1",
+    "babel-eslint": "^7.2.3",
     "babel-jest": "20.0.3",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
+    "babel-plugin-transform-exponentiation-operator": "^6.24.1",
     "babel-plugin-transform-flow-strip-types": "6.22.0",
     "codecov": "^2.2.0",
+    "eslint": "^4.3.0",
+    "eslint-config-airbnb-base": "^11.3.1",
+    "eslint-plugin-import": "^2.7.0",
     "flow-bin": "0.51.0",
     "flow-coverage-report": "^0.3.0",
     "jest": "20.0.4"

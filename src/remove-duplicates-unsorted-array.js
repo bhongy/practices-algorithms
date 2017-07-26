@@ -53,6 +53,8 @@ function bruteForceFunctionalAvoidMap(nums: Array<number>): Array<number> {
 }
 
 // avoid using Array.prototype methods and mutate original array for O(1) space
+// disable eslint rule because this is intended to mutate the input
+/* eslint-disable no-param-reassign */
 function bruteForceConstantSpaceAvoidPush<T: number[]>(nums: T): T {
   const includes: Map<number, boolean> = new Map();
 
@@ -68,10 +70,10 @@ function bruteForceConstantSpaceAvoidPush<T: number[]>(nums: T): T {
       }
 
       includes.set(value, true);
-      assigner++;
+      assigner += 1;
     }
 
-    iterator++;
+    iterator += 1;
   }
 
   nums.length = assigner;

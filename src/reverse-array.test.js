@@ -3,7 +3,7 @@
 import reverseArrayVersions from './reverse-array';
 
 describe('Reverse Array', () => {
-  reverseArrayVersions.forEach(reverseArray => {
+  reverseArrayVersions.forEach((reverseArray) => {
     describe(`... ${reverseArray.name}`, () => {
       it('should reverse the elements in the array', () => {
         [

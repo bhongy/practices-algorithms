@@ -1,6 +1,8 @@
 import {
   romanToInteger,
   romanToIntegerSimpler,
+  integerToRoman,
+  integerToRomanSimpler,
 } from './integer-roman-conversion';
 
 const romanToIntegerTestcases: Array<[string, number]> = [
@@ -14,9 +16,12 @@ const romanToIntegerTestcases: Array<[string, number]> = [
   ['XVIII', 18],
   ['XXX', 30],
   ['XL', 40],
+  ['XLV', 45],
   ['L', 50],
   ['LX', 60],
+  ['LXXXIX', 89],
   ['XC', 90],
+  ['XCIV', 94],
   ['C', 100],
   ['CX', 110],
   ['CL', 150],
@@ -43,6 +48,30 @@ describe('Roman to Integer (1 to 3999) - simpler', () => {
   romanToIntegerTestcases.forEach(([input, expected]: [string, number]) => {
     it(`should convert ${input} to ${expected}`, () => {
       expect(romanToIntegerSimpler(input)).toBe(expected);
+    });
+  });
+});
+
+function swapKeyValue([k, v]: [number, string]): [string, number] {
+  return [v, k];
+}
+
+const integerToRomanTestcases: Array<
+  [number, string]
+> = romanToIntegerTestcases.map(swapKeyValue);
+
+describe('Integer to Roman (1 to 3999) - v1', () => {
+  integerToRomanTestcases.forEach(([input, expected]: [number, string]) => {
+    it(`should convert ${input} to ${expected}`, () => {
+      expect(integerToRoman(input)).toBe(expected);
+    });
+  });
+});
+
+describe('Integer to Roman (1 to 3999) - simpler', () => {
+  integerToRomanTestcases.forEach(([input, expected]: [number, string]) => {
+    it(`should convert ${input} to ${expected}`, () => {
+      expect(integerToRomanSimpler(input)).toBe(expected);
     });
   });
 });

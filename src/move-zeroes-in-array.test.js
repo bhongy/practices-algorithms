@@ -3,7 +3,7 @@
 import versions from './move-zeroes-in-array';
 
 describe('Move Zeroes', () => {
-  versions.forEach(moveZeroes => {
+  versions.forEach((moveZeroes) => {
     describe(`${moveZeroes.name}`, () => {
       it('should mutate the input rather than creating a new array', () => {
         const input = [0, 1];

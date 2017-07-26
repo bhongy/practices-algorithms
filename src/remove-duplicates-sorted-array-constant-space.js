@@ -22,7 +22,7 @@ function bruteForce(nums: Array<number>): number {
     } else {
       // then keep going
       previousValue = currentValue;
-      currentIndex++;
+      currentIndex += 1;
     }
   }
 
