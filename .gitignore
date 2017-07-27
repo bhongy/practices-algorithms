@@ -1,7 +1,7 @@
 .DS_Store
 npm-debug.log*
-node_modules/**
+node_modules/
 node_modules.tar.gz
-build/**
-coverage/**
-flow-coverage/**
+build/
+coverage/
+flow-coverage/
