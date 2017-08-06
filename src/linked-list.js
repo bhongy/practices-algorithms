@@ -142,10 +142,7 @@ class LinkedList<T> {
   }
 
   // O(n) time
-  reduce<R>(
-    iteratee: (accumulator: R, node: Node<T>) => R,
-    accumulator: R,
-  ): R {
+  reduce<R>(iteratee: (accumulator: R, node: Node<T>) => R, accumulator: R): R {
     this.forEach((node: Node<T>): void => {
       // eslint-disable-next-line no-param-reassign
       accumulator = iteratee(accumulator, node);
@@ -157,7 +154,7 @@ class LinkedList<T> {
   // O(n) time
   size(): number {
     // eslint-disable-next-line no-return-assign, no-param-reassign
-    return this.reduce(length => length += 1, 0);
+    return this.reduce(length => (length += 1), 0);
   }
 
   // O(n) time
@@ -173,3 +170,65 @@ class LinkedList<T> {
 }
 
 export default LinkedList;
+
+function isLastNode<T>(node: Node<T>): boolean {
+  return !node.next;
+}
+
+// can't think of a way that having `return null` at the end is needed
+// adding it causes test coverage to go down (can't think of the way to test)
+// eslint-disable-next-line consistent-return
+export function deleteMiddleNode<T>(list: LinkedList<T>, valueToRemove: T): ?Node<T> {
+  // don't actually need to check `list.head` because size === 0 is the same
+  // but Flow don't know that
+  if (!list.head || list.size() <= 2) {
+    return null;
+  }
+
+  let prev: Node<T> = list.head;
+  // skip head because we don't remove it
+  let current: ?Node<T> = list.head.next;
+
+  while (current) {
+    // don't remove last node
+    if (isLastNode(current)) {
+      return null;
+    }
+
+    if (current.value === valueToRemove) {
+      // skip current
+      prev.next = current.next;
+      return current;
+    }
+
+    prev = current;
+    current = current.next;
+  }
+
+  /*
+  ---
+  alternative, don't use `prev` variable --
+
+  I prefer using two variables because it's easier for anyone reading
+  the code to understand.
+  ---
+
+  let current: Node<T> = list.head;
+
+  while (current.next) {
+    if (isLastNode(current.next)) {
+      return null;
+    }
+
+    if (current.next.value === valueToRemove) {
+      const removed = current.next;
+      current.next = current.next.next;
+      return removed;
+    }
+
+    current = current.next;
+  }
+
+  return null;
+  */
+}
