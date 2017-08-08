@@ -4,12 +4,12 @@
   @flow
 */
 
-export class Node<T> {
-  value: T;
+class Node<T> {
+  data: T;
   next: ?Node<T>;
 
   constructor(v: T): void {
-    this.value = v;
+    this.data = v;
     this.next = null;
   }
 }
@@ -30,16 +30,14 @@ class LinkedList<T> {
   // O(1) time
   prepend(v: T): void {
     const newHead = new Node(v);
-
     if (this.head) {
       newHead.next = this.head;
     }
-
     this.head = newHead;
   }
 
   // O(1) time
-  shift(): ?Node<T> {
+  shift(): ?T {
     // TODO: figure out how to type so that I can use `this.isEmpty()` here
     //   really don't like not being able to express intent that `!this.head`
     //   actually means the list is empty.
@@ -50,9 +48,9 @@ class LinkedList<T> {
       return null;
     }
 
-    const prevHead = this.head;
-    this.head = this.head.next;
-    return prevHead;
+    const { data, next } = this.head;
+    this.head = next;
+    return data;
   }
 
   // O(n) time (worst case)
@@ -70,60 +68,64 @@ class LinkedList<T> {
   }
 
   // O(n) time (worst case)
-  pop(): ?Node<T> {
-    if (!this.head || !this.head.next) {
-      return this.shift();
+  pop(): ?T {
+    if (!this.head) {
+      return null;
     }
 
-    let current = this.head;
-    let removed = null;
-
-    // for a linked list `while (current.next)` is enough
-    // (we don't really need `current` check)
-    // but I guess Flow cannot guarantee that
-    while (current && current.next) {
-      if (!current.next.next) {
-        removed = current.next;
-        current.next = null;
-        break;
-      }
-
-      current = current.next;
+    // removing head
+    if (!this.head.next) {
+      const { data } = this.head;
+      this.head = null;
+      return data;
     }
 
-    return removed;
+    let prev = this.head;
+    let last = this.head;
+    // we know that we have this.head.next from checking "removing head"
+    while (last.next) {
+      prev = last;
+      last = last.next;
+    }
+
+    // detach last node
+    prev.next = null;
+    return last.data;
   }
 
   // O(n) time (worst case)
-  removeWithValue(v: T): ?Node<T> {
-    // the first two checks `!this.head` (isEmpty)
-    // and `!this.head.next` (head is the only node)
-    // happens in all "removal" methods
-    // is there a better and expressive way to handle this?
-    // (must maintain reability)
-    // ---
-    // special case for `this.head.value === v`
-    // because `this.head` needs to be updated when removing head
-    if (!this.head || !this.head.next || this.head.value === v) {
-      return this.shift();
+  // true - success
+  // false - not found value
+  removeWithValue(v: T): boolean {
+    if (!this.head) {
+      return false;
     }
 
-    let current = this.head;
-    let removed = null;
+    // removing head, need to update head reference
+    if (this.head.data === v) {
+      // get reference to the next node after head
+      const { next } = this.head;
+      // detach current head node from the list
+      this.head.next = null;
+      // use the next node as head
+      this.head = next;
+      return true;
+    }
 
-    while (current && current.next) {
-      if (current.next.value === v) {
-        removed = current.next;
-        // skip the current.next and use the one after
-        current.next = current.next.next;
-        break;
+    let prev = this.head;
+    // already dealt with head
+    let current = this.head.next;
+    while (current) {
+      if (current.data === v) {
+        prev.next = current.next;
+        return true;
       }
 
+      prev = current;
       current = current.next;
     }
 
-    // `v` is not in the list
-    return removed;
+    return false;
   }
 
   // O(1) time
@@ -161,7 +163,7 @@ class LinkedList<T> {
   toString(): string {
     const values = this.reduce((acc: Array<string>, node) => {
       // $FlowFixMe: uncovered. how to type that `T` must have `toString` method
-      acc.push(node.value.toString());
+      acc.push(node.data.toString());
       return acc;
     }, []);
 
@@ -171,39 +173,34 @@ class LinkedList<T> {
 
 export default LinkedList;
 
-function isLastNode<T>(node: Node<T>): boolean {
-  return !node.next;
-}
-
-// can't think of a way that having `return null` at the end is needed
-// adding it causes test coverage to go down (can't think of the way to test)
-// eslint-disable-next-line consistent-return
-export function deleteMiddleNode<T>(list: LinkedList<T>, valueToRemove: T): ?Node<T> {
+export function deleteMiddleNode<T>(list: LinkedList<T>, valueToRemove: T): boolean {
   // don't actually need to check `list.head` because size === 0 is the same
   // but Flow don't know that
   if (!list.head || list.size() <= 2) {
-    return null;
+    return false;
   }
 
-  let prev: Node<T> = list.head;
+  let prev = list.head;
   // skip head because we don't remove it
-  let current: ?Node<T> = list.head.next;
+  let current = list.head.next;
 
   while (current) {
     // don't remove last node
-    if (isLastNode(current)) {
-      return null;
+    if (!current.next) {
+      break;
     }
 
-    if (current.value === valueToRemove) {
+    if (current.data === valueToRemove) {
       // skip current
       prev.next = current.next;
-      return current;
+      return true;
     }
 
     prev = current;
     current = current.next;
   }
+
+  return false;
 
   /*
   ---

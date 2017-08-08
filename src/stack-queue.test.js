@@ -1,12 +1,7 @@
 // @flow
 
-import type { Node } from './linked-list';
 import type { Stack, Queue } from './stack-queue';
 import { createStack, createQueue } from './stack-queue';
-
-function expectValue<T>(node: ?Node<T>, value: T) {
-  expect(node).toEqual(expect.objectContaining({ value }));
-}
 
 describe('Stack', () => {
   let stack;
@@ -26,9 +21,15 @@ describe('Stack', () => {
     expect(stack.toString()).toBe('');
   });
 
-  it('should return the node at the top of the stack when calling peek', () => {
-    populateData(stack);
-    expectValue(stack.peek(), 'banana');
+  describe('Peek', () => {
+    it('should return value at the node from the top of the stack', () => {
+      populateData(stack);
+      expect(stack.peek()).toBe('banana');
+    });
+
+    it('should return `null` if stack is empty', () => {
+      expect(stack.peek()).toBeNull();
+    });
   });
 
   it('should push new nodes to the top of the stack', () => {
@@ -53,13 +54,13 @@ describe('Stack', () => {
 
     it('should return the removed node', () => {
       populateData(stack);
-      expectValue(stack.pop(), 'banana');
+      expect(stack.pop()).toBe('banana');
     });
 
     it('should remove the last node correctly', () => {
       stack.push('raspberry');
 
-      expectValue(stack.pop(), 'raspberry');
+      expect(stack.pop()).toBe('raspberry');
       expect(stack.toString()).toBe('');
     });
 
@@ -131,13 +132,13 @@ describe('Queue', () => {
 
     it('should return the removed node', () => {
       populateData(queue);
-      expectValue(queue.dequeue(), 'scissor');
+      expect(queue.dequeue()).toBe('scissor');
     });
 
     it('should remove the last node correctly', () => {
       queue.enqueue('dragon');
 
-      expectValue(queue.dequeue(), 'dragon');
+      expect(queue.dequeue()).toBe('dragon');
       expect(queue.toString()).toBe('');
     });
 

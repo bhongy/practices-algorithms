@@ -5,12 +5,12 @@
   @flow
 */
 
-import LinkedList, { Node } from './linked-list';
+import LinkedList from './linked-list';
 
 export interface Stack<T> {
-  peek(): ?Node<T>,
+  peek(): ?T,
   push(v: T): void,
-  pop(): ?Node<T>,
+  pop(): ?T,
   isEmpty(): boolean,
   size(): number,
   toString(): string,
@@ -21,7 +21,7 @@ export function createStack<T>(): Stack<T> {
 
   return {
     peek() {
-      return stack.head;
+      return stack.head ? stack.head.data : null;
     },
 
     push: stack.prepend.bind(stack),
@@ -34,7 +34,7 @@ export function createStack<T>(): Stack<T> {
 
 export interface Queue<T> {
   enqueue(v: T): void,
-  dequeue(): ?Node<T>,
+  dequeue(): ?T,
   isEmpty(): boolean,
   size(): number,
   toString(): string,
