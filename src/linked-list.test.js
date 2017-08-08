@@ -1,11 +1,6 @@
 // @flow
 
-import LinkedList, { Node, deleteMiddleNode } from './linked-list';
-
-// "importing" this module to other modules will cause the tests to double run
-function expectValue<T>(node: ?Node<T>, value: T) {
-  expect(node).toEqual(expect.objectContaining({ value }));
-}
+import LinkedList, { deleteMiddleNode } from './linked-list';
 
 describe('Linked List', () => {
   let list;
@@ -45,13 +40,13 @@ describe('Linked List', () => {
 
     it('should return the removed node', () => {
       list.prepend(8);
-      expectValue(list.shift(), 8);
+      expect(list.shift()).toBe(8);
     });
 
     it('should remove the last node correctly', () => {
       list.append(64);
 
-      expectValue(list.shift(), 64);
+      expect(list.shift()).toBe(64);
       expect(list.toString()).toBe('');
     });
 
@@ -90,13 +85,13 @@ describe('Linked List', () => {
       list.prepend(4);
       list.append(16);
 
-      expectValue(list.pop(), 16);
+      expect(list.pop()).toBe(16);
     });
 
     it('should remove the last node correctly', () => {
       list.append(8);
 
-      expectValue(list.pop(), 8);
+      expect(list.pop()).toBe(8);
       expect(list.toString()).toBe('');
     });
 
@@ -116,8 +111,8 @@ describe('Linked List', () => {
       expect(list.toString()).toBe('1 -> 3 -> 2 -> 3 -> 4');
     });
 
-    it('should return `null` if no removal is performed', () => {
-      expect(list.removeWithValue(10)).toBeNull();
+    it('should return `false` if no removal is performed', () => {
+      expect(list.removeWithValue(10)).toBe(false);
     });
 
     it('should remove the first node containing the value', () => {
@@ -128,8 +123,8 @@ describe('Linked List', () => {
       expect(list.toString()).toBe('1 -> 3 -> 4');
     });
 
-    it('should return the reference of the removed node', () => {
-      expectValue(list.removeWithValue(4), 4);
+    it('should return `true` if a removal is performed', () => {
+      expect(list.removeWithValue(4)).toBe(true);
     });
 
     it('should remove the head node when applicable', () => {
@@ -137,11 +132,11 @@ describe('Linked List', () => {
       expect(list.toString()).toBe('3 -> 2 -> 3 -> 4');
     });
 
-    it('should not remove node and return `null` when the list is empty', () => {
+    it('should not remove node and return `false` when the list is empty', () => {
       list = new LinkedList();
 
-      expect(list.removeWithValue(1)).toBeNull();
-      expect(list.removeWithValue(NaN)).toBeNull();
+      expect(list.removeWithValue(1)).toBe(false);
+      expect(list.removeWithValue(NaN)).toBe(false);
       expect(() => list.shift()).not.toThrow();
     });
   });
@@ -199,11 +194,6 @@ describe('Linked List', () => {
         expect(list.toString()).toBe('a -> bb -> e -> f');
       });
 
-      it('should return the removed node', () => {
-        const removedNode = deleteMiddleNode(list, 'ddd');
-        expectValue(removedNode, 'ddd');
-      });
-
       it('should not remove the first or the last nodes', () => {
         deleteMiddleNode(list, 'a');
         deleteMiddleNode(list, 'f');
@@ -211,26 +201,22 @@ describe('Linked List', () => {
       });
 
       it('should not remove any node if list.size is less than 3', () => {
-        let removedNode;
-
         list = new LinkedList();
-        removedNode = deleteMiddleNode(list, 'anything');
-        expect(removedNode).toBeNull();
+        deleteMiddleNode(list, 'anything');
         expect(list.toString()).toBe('');
 
         list.append('abc');
         list.append('def');
 
-        removedNode = deleteMiddleNode(list, 'def');
-        expect(removedNode).toBeNull();
+        deleteMiddleNode(list, 'def');
         expect(list.toString()).toBe('abc -> def');
       });
     });
 
     describe('When the value to remove is *not* in the list', () => {
-      it('should not do anything and return `null`', () => {
-        const removedNode = deleteMiddleNode(list, 'should_not_find');
-        expect(removedNode).toBeNull();
+      it('should not do anything and return `false`', () => {
+        const success = deleteMiddleNode(list, 'should_not_find');
+        expect(success).toBe(false);
         expect(list.toString()).toBe(originalResult);
       });
     });
