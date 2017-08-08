@@ -155,3 +155,102 @@ export function createQueue<T>(): Queue<T> {
     toString: queue.toString.bind(queue),
   };
 }
+
+/*
+alternative, implement Stack with object
+
+Note: when this queue keeps running for a while
+  the key could get really large so there should be
+  a mechanism to "reset" the key but if the key
+  can be reset, we have to limit the maximum queue size
+  to know when we can reset.
+
+// #1 as a class
+class Queue<T> {
+  storage: { [number]: T };
+  head: number;
+  next: number;
+
+  constructor(): void {
+    this.storage = {};
+    this.head = 0;
+    this.next = 0;
+  }
+
+  enqueue(data: T): void {
+    this.storage[this.next] = data;
+    this.next += 1;
+  }
+
+  dequeue(): ?T {
+    if (this.head === this.next) {
+      return null;
+    }
+
+    const data = this.storage[this.head];
+    delete this.storage[this.head];
+    this.head += 1;
+    return data;
+  }
+
+  isEmpty(): boolean {
+    return this.head === this.next;
+  }
+
+  size(): number {
+    return this.next - this.head;
+  }
+
+  toString(): string {
+    const last = this.next - 1;
+    const result = [];
+    for (let i = last; i >= this.head; i--) {
+      result.push(this.storage(i));
+    }
+    return result.join(' -> ');
+  }
+}
+
+// #2 as a factory
+//   less memory efficient (new functions for each instance)
+export function createQueue<T>(): Queue<T> {
+  const storage: { [number]: T } = {};
+  let head = 0;
+  let next = 0;
+
+  return {
+    enqueue(data) {
+      storage[next] = data;
+      next += 1;
+    },
+
+    dequeue() {
+      if (head === next) {
+        return null;
+      }
+
+      const data = storage[head];
+      delete storage[head];
+      head += 1;
+      return data;
+    },
+
+    isEmpty() {
+      return head === next;
+    },
+
+    size() {
+      return next - head;
+    },
+
+    toString() {
+      const tail = next - 1;
+      const result = [];
+      for (let i = tail; i >= head; i--) {
+        result.push(storage[i]);
+      }
+      return result.join(' -> ');
+    },
+  };
+}
+*/
