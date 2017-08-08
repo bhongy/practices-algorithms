@@ -80,7 +80,7 @@ class LinkedList<T> {
       return data;
     }
 
-    let prev = null;
+    let prev = this.head;
     let last = this.head;
     // we know that we have this.head.next from checking "removing head"
     while (last.next) {
@@ -89,10 +89,7 @@ class LinkedList<T> {
     }
 
     // detach last node
-    if (prev) {
-      prev.next = null;
-    }
-
+    prev.next = null;
     return last.data;
   }
 
@@ -176,9 +173,6 @@ class LinkedList<T> {
 
 export default LinkedList;
 
-// can't think of a way that having `return null` at the end is needed
-// adding it causes test coverage to go down (can't think of the way to test)
-// eslint-disable-next-line consistent-return
 export function deleteMiddleNode<T>(list: LinkedList<T>, valueToRemove: T): boolean {
   // don't actually need to check `list.head` because size === 0 is the same
   // but Flow don't know that
@@ -193,7 +187,7 @@ export function deleteMiddleNode<T>(list: LinkedList<T>, valueToRemove: T): bool
   while (current) {
     // don't remove last node
     if (!current.next) {
-      return false;
+      break;
     }
 
     if (current.data === valueToRemove) {
