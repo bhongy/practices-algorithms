@@ -6,6 +6,8 @@ describe('Merge Two Sorted Arrays', () => {
   it('should return the merged array with all elements sorted', () => {
     [
       [[], [], []],
+      [[1], [2], [1, 2]],
+      [[2], [1], [1, 2]],
       [[2, 5, 9], [], [2, 5, 9]],
       [[], [3, 12, 29, 101], [3, 12, 29, 101]],
       [[2, 9], [1, 2, 3, 5, 6, 29], [1, 2, 2, 3, 5, 6, 9, 29]],

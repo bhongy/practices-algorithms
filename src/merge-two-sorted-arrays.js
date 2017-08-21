@@ -26,15 +26,9 @@ function mergeSortedArrays(a: Array<number>, b: Array<number>): Array<number> {
   let iB = 0;
 
   // eslint-disable-next-line no-constant-condition
-  while (true) {
-    // want to try a different style
-    if (iA >= lenA && iB >= lenB) {
-      break;
-    }
-
+  while (iA < lenA || iB < lenB) {
     // from here, we know that we won't have a case
     // where both iA and iB are out of bound
-
     const valA = a[iA];
     const valB = b[iB];
 
