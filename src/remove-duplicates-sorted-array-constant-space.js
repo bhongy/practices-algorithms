@@ -29,4 +29,27 @@ function bruteForce(nums: Array<number>): number {
   return length;
 }
 
-export default [bruteForce];
+/* eslint-disable no-param-reassign */
+function twoPointersShiftUniquesToFront(xs: number[]): number {
+  const n = xs.length;
+  if (n <= 0) {
+    return 0;
+  }
+
+  let previous = xs[0];
+  let write = 1;
+  for (let read = 1; read < n; read++) {
+    const current = xs[read];
+    if (xs[read] !== previous) {
+      xs[write] = current;
+      previous = current;
+      write += 1;
+    }
+  }
+
+  // trim original to the length that contains unique (written)
+  xs.length = write;
+  return write;
+}
+
+export default [bruteForce, twoPointersShiftUniquesToFront];
