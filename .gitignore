@@ -5,3 +5,4 @@ node_modules.tar.gz
 build/
 coverage/
 flow-coverage/
+java/*.class
