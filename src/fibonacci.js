@@ -27,6 +27,19 @@ function dynamicProgrammingFibonacci(n: number): number {
   return result[n];
 }
 
+// optimize space: store only the last two numbers instead of the whole array
+// http://introcs.cs.princeton.edu/java/13flow/Fibonacci.java.html
+// O(n) time, O(1) space
+function dynamicProgrammingOptimizedSpaceFibonacci(n: number): number {
+  let current = 0;
+  let prev = 1;
+  for (let i = 0; i < n; i++) {
+    current += prev;
+    prev = current - prev;
+  }
+  return current;
+}
+
 // O(2^n) time - binary tree with depth `n`
 function recursiveFibonacci(n: number): number {
   if (n < 2) {
@@ -61,6 +74,7 @@ function chiragAgarwalFibonacci(n: number): number {
 
 export default [
   dynamicProgrammingFibonacci,
+  dynamicProgrammingOptimizedSpaceFibonacci,
   recursiveFibonacci,
   chiragAgarwalFibonacci,
 ];
