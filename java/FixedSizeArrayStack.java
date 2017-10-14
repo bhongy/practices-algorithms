@@ -1,5 +1,8 @@
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 // naive implementation - asking client to manage capacity
-public class FixedSizeArrayStack<Item> {
+public class FixedSizeArrayStack<Item> implements Iterable<Item> {
     private Item[] s;
     private int n = 0;
 
@@ -23,5 +26,31 @@ public class FixedSizeArrayStack<Item> {
         Item item = s[n];
         s[n] = null; // de-reference to avoid loitering
         return item;
+    }
+
+    public class ReverseArrayIterator implements Iterator<Item> {
+        private int i = n - 1;
+
+        public boolean hasNext() {
+            return i >= 0;
+        }
+
+        public void remove() {
+            throw new UnsupportedOperationException();
+        }
+
+        public Item next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            Item item = s[i];
+            i--;
+            return item;
+            // return s[i--];
+        }
+    }
+
+    public Iterator<Item> iterator() {
+        return new ReverseArrayIterator();
     }
 }

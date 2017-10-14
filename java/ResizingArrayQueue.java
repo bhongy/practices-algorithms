@@ -1,9 +1,10 @@
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class ResizingArrayQueue<Item> {
+public class ResizingArrayQueue<Item> implements Iterable<Item> {
     private Item[] q;
     private int n;
     private int head;
@@ -57,6 +58,31 @@ public class ResizingArrayQueue<Item> {
             resize(q.length / 2);
         }
         return item;
+    }
+
+    public class ArrayIterator implements Iterator<Item> {
+        private int i = 0;
+
+        public boolean hasNext() {
+            return i < n;
+        }
+
+        public Item next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            Item item = q[(head + i) % q.length];
+            i++;
+            return item;
+        }
+
+        public void remove() {
+            throw new UnsupportedOperationException();
+        }
+    }
+
+    public Iterator<Item> iterator() {
+        return new ArrayIterator();
     }
 
     public static void main(String[] args) {

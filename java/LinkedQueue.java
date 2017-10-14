@@ -1,4 +1,7 @@
-public class LinkedQueue<Item> {
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class LinkedQueue<Item> implements Iterable<Item> {
     private Node front, back;
     private class Node {
         Item item;
@@ -30,5 +33,30 @@ public class LinkedQueue<Item> {
             back = null;
         }
         return item;
+    }
+
+    private class ListIterator implements Iterator<Item> {
+        private Node current = front;
+
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        public void remove() {
+            throw new UnsupportedOperationException();
+        }
+
+        public Item next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            Item item = current.item;
+            current = current.next;
+            return item;
+        }
+    }
+
+    public Iterator<Item> iterator() {
+        return new ListIterator();
     }
 }
