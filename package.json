@@ -11,12 +11,12 @@
     "flow-coverage": "flow-coverage-report -i './src/**/*.js' -t html -t text",
     "lint": "eslint 'src/**/*.js'",
     "prepush": "yarn lint && yarn flow check && yarn test",
-    "test": "jest --config=.jestrc"
+    "test": "jest --config=.jestrc.json"
   },
   "devDependencies": {
     "babel-cli": "6.24.1",
     "babel-eslint": "^7.2.3",
-    "babel-jest": "20.0.3",
+    "babel-jest": "22.1.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
     "babel-plugin-transform-exponentiation-operator": "^6.24.1",
     "babel-plugin-transform-flow-strip-types": "6.22.0",
@@ -24,9 +24,9 @@
     "eslint": "^4.3.0",
     "eslint-config-airbnb-base": "^11.3.1",
     "eslint-plugin-import": "^2.7.0",
-    "flow-bin": "^0.51.1",
-    "flow-coverage-report": "^0.3.0",
+    "flow-bin": "0.63.1",
+    "flow-coverage-report": "0.4.1",
     "husky": "^0.14.3",
-    "jest": "20.0.4"
+    "jest": "22.1.4"
   }
 }
