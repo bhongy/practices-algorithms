@@ -11,7 +11,7 @@ describe('Reverse Integer', () => {
   });
 
   it('should reverse negative integer correctly', () => {
-    [[37711, 11773], [-0, -0], [-55, -55]].forEach(([input, expected]: [
+    [[37711, 11773], [-0, 0], [-55, -55]].forEach(([input, expected]: [
       number,
       number,
     ]) => {
