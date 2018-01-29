@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QuickFindUF handles out of range indices 1`] = `"id is out of bound. Expect between [0, 9] but received -1"`;
+
+exports[`QuickFindUF handles out of range indices 2`] = `"id is out of bound. Expect between [0, 9] but received 12"`;
+
+exports[`QuickFindUF handles out of range indices 3`] = `"id is out of bound. Expect between [0, 9] but received -3"`;
+
+exports[`QuickFindUF handles out of range indices 4`] = `"id is out of bound. Expect between [0, 9] but received 12"`;
+
+exports[`QuickFindUF unions correctly: After unions 1`] = `
+Array [
+  0,
+  1,
+  1,
+  8,
+  8,
+  0,
+  0,
+  1,
+  8,
+  8,
+]
+`;
+
+exports[`QuickFindUF unions correctly: Initial State 1`] = `
+Array [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+]
+`;
