@@ -1,5 +1,6 @@
 /*
-  Check if a number is a prime number. Assume inputs are integer (including negative).
+  Check if a number is a prime number.
+  Assume inputs are integer (including negative).
 
   http://khan4019.github.io/front-end-Interview-Questions/js1.html#isPrime
 
@@ -61,8 +62,4 @@ function squareRootMethod(input: number): boolean {
   return true;
 }
 
-export default [
-  bruteForce,
-  bruteForceIncrementTwo,
-  squareRootMethod,
-];
+export default [bruteForce, bruteForceIncrementTwo, squareRootMethod];

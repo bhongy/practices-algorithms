@@ -8,12 +8,12 @@
 import LinkedList from './linked-list';
 
 export interface Stack<T> {
-  peek(): ?T,
-  push(v: T): void,
-  pop(): ?T,
-  isEmpty(): boolean,
-  size(): number,
-  toString(): string,
+  peek(): ?T;
+  push(v: T): void;
+  pop(): ?T;
+  isEmpty(): boolean;
+  size(): number;
+  toString(): string;
 }
 
 export function createStack<T>(): Stack<T> {
@@ -136,11 +136,11 @@ export function createStack<T>(): Stack<T> {
 */
 
 export interface Queue<T> {
-  enqueue(v: T): void,
-  dequeue(): ?T,
-  isEmpty(): boolean,
-  size(): number,
-  toString(): string,
+  enqueue(v: T): void;
+  dequeue(): ?T;
+  isEmpty(): boolean;
+  size(): number;
+  toString(): string;
 }
 
 export function createQueue<T>(): Queue<T> {

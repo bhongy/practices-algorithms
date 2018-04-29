@@ -173,7 +173,10 @@ class LinkedList<T> {
 
 export default LinkedList;
 
-export function deleteMiddleNode<T>(list: LinkedList<T>, valueToRemove: T): boolean {
+export function deleteMiddleNode<T>(
+  list: LinkedList<T>,
+  valueToRemove: T
+): boolean {
   // don't actually need to check `list.head` because size === 0 is the same
   // but Flow don't know that
   if (!list.head || list.size() <= 2) {

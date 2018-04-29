@@ -59,7 +59,7 @@ function twoPassFunctional(nums: Array<number>, target: number): Result {
 
   const hashmap = nums.reduce(
     (acc, value, index) => acc.set(value, index),
-    new Map(),
+    new Map()
   );
 
   // check the match

@@ -11,7 +11,7 @@
 
 // leetcode problem asserts againsts 32-bit signed integer
 export const MIN_INTEGER = -(2 ** 31);
-export const MAX_INTEGER = (2 ** 31) - 1;
+export const MAX_INTEGER = 2 ** 31 - 1;
 
 // did not come up with the solution myself
 // solution heavily inspired by:
@@ -31,7 +31,7 @@ function reverse(int: number): number {
     //   move previous result 1 digit and the current digit
     //   and append the "processing" digit to the result
     //   e.g. result: 12, tail: 3 -> newResult: 123
-    const newResult = (result * 10) + tail;
+    const newResult = result * 10 + tail;
 
     // the check here is awkward because Javascript's Number.MAX_SAFE_INTEGER
     // uses double-precision floating-point format numbers -> Math.pow(2, 53) - 1

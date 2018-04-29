@@ -3,7 +3,7 @@
 import removeDuplicatesVersions from './remove-duplicates-unsorted-array';
 
 describe('Remove Duplicates from Unsorted Array', () => {
-  removeDuplicatesVersions.forEach((removeDuplicates) => {
+  removeDuplicatesVersions.forEach(removeDuplicates => {
     describe(`... ${removeDuplicates.name}`, () => {
       it('should remove duplicate values', () => {
         [

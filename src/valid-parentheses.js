@@ -40,7 +40,8 @@ function isValidParentheses(source: string): boolean {
       }
 
       // remove the last brace from the stack
-      // could do `openBraces.length = pointer` instead but this shows the intent better
+      // could do `openBraces.length = pointer`
+      // instead but this shows the intent better
       openBraces.length -= 1;
       // update the position of the pointer since we "pop" the stack
       pointer -= 1;

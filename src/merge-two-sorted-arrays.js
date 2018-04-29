@@ -18,8 +18,12 @@ function mergeSortedArrays(a: Array<number>, b: Array<number>): Array<number> {
 
   // special case, one of the input is an empty array
   // avoid doing extra work if not necessary
-  if (lenA === 0) return b;
-  if (lenB === 0) return a;
+  if (lenA === 0) {
+    return b;
+  }
+  if (lenB === 0) {
+    return a;
+  }
 
   const merged: Array<number> = [];
   let iA = 0;

@@ -6,11 +6,7 @@ describe('Flatten 2D Vector', () => {
   let vector;
 
   it('should return the correct values one-by-one', () => {
-    vector = new Vector2d([
-      [1, 2],
-      [3],
-      [4, 5, 6],
-    ]);
+    vector = new Vector2d([[1, 2], [3], [4, 5, 6]]);
 
     expect(vector.next()).toBe(1);
     expect(vector.next()).toBe(2);

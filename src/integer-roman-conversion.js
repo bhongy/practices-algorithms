@@ -1,5 +1,6 @@
 /*
-  Convert between Roman Numerals to Integer. Values are integers between 1 to 3999.
+  Convert between Roman Numerals to Integer.
+  Values are integers between 1 to 3999.
 
   https://leetcode.com/problems/roman-to-integer
 
@@ -100,12 +101,13 @@ export function integerToRoman(int: number): string {
   let remaining = int;
   let result = '';
 
-  [1000, 500, 100, 50, 10, 5, 1].forEach((factor) => {
+  [1000, 500, 100, 50, 10, 5, 1].forEach(factor => {
     while (remaining >= factor) {
       const n = parseInt(remaining / factor, 10);
-      const next = n < 4
-        ? repeat(romanFor(factor), n)
-        : romanFor(factor) + romanFor(factor * 5);
+      const next =
+        n < 4
+          ? repeat(romanFor(factor), n)
+          : romanFor(factor) + romanFor(factor * 5);
 
       result += next;
       remaining -= n * factor;
@@ -141,15 +143,14 @@ export function integerToRomanSimpler(int: number): string {
   let remaining = int;
   let result = '';
 
-  integersToRomansMap.forEach(([integer, romanChar]: [
-    number,
-    string,
-  ]): void => {
-    while (remaining >= integer) {
-      result += romanChar;
-      remaining -= integer;
+  integersToRomansMap.forEach(
+    ([integer, romanChar]: [number, string]): void => {
+      while (remaining >= integer) {
+        result += romanChar;
+        remaining -= integer;
+      }
     }
-  });
+  );
 
   return result;
 }

@@ -13,18 +13,11 @@ describe('Utils', () => {
     });
 
     it('should return `false` for other types', () => {
-      [
-        0,
-        10,
-        Infinity,
-        NaN,
-        '',
-        'foo',
-        { foo: 'bar' },
-        [1, 2, 3],
-      ].forEach((v) => {
-        expect(isNil(v)).toBe(false);
-      });
+      [0, 10, Infinity, NaN, '', 'foo', { foo: 'bar' }, [1, 2, 3]].forEach(
+        v => {
+          expect(isNil(v)).toBe(false);
+        }
+      );
     });
   });
 });
