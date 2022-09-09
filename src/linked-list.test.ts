@@ -70,13 +70,15 @@ describe('Linked List', () => {
       list.prepend(4);
       list.append(16);
 
-      expect(list.toString()).toBe('4 -> 1 -> 16');
-
-      list.pop();
-      expect(list.toString()).toBe('4 -> 1');
-
-      list.pop();
-      expect(list.toString()).toBe('4');
+      [
+        // keep multi-line format
+        '4 -> 1 -> 16',
+        '4 -> 1',
+        '4',
+      ].forEach((want) => {
+        expect(`${list}`).toBe(want);
+        list.pop();
+      });
     });
 
     it('should return the removed node', () => {

@@ -14,8 +14,6 @@ class Node<T> {
 
 // cannot handle circular linked list
 // - i.e. the iterator do not know when to terminate
-//
-// do not return `this` for method chaining
 class LinkedList<T> {
   head: Node<T> | null;
 
@@ -27,21 +25,13 @@ class LinkedList<T> {
 
   // O(1) time
   prepend(v: T): void {
-    const newHead = new Node(v);
-    if (this.head) {
-      newHead.next = this.head;
-    }
-    this.head = newHead;
+    const n = new Node(v);
+    n.next = this.head;
+    this.head = n;
   }
 
   // O(1) time
   shift(): T | null {
-    // TODO: figure out how to type so that I can use `this.isEmpty()` here
-    //   really don't like not being able to express intent that `!this.head`
-    //   actually means the list is empty.
-    // ---
-    // flow don't understand that `this.head` is already checked
-    // if doing `if (this.isEmpty()) { return null; }`
     if (!this.head) {
       return null;
     }
@@ -71,7 +61,7 @@ class LinkedList<T> {
       return null;
     }
 
-    // removing head
+    // for a linked list of one item, remove the head
     if (!this.head.next) {
       const {data} = this.head;
       this.head = null;
@@ -80,7 +70,6 @@ class LinkedList<T> {
 
     let prev = this.head;
     let last = this.head;
-    // we know that we have this.head.next from checking "removing head"
     while (last.next) {
       prev = last;
       last = last.next;
@@ -93,7 +82,7 @@ class LinkedList<T> {
 
   // O(n) time (worst case)
   // true - success
-  // false - not found value
+  // false - v is not found
   removeWithValue(v: T): boolean {
     if (!this.head) {
       return false;
@@ -143,7 +132,7 @@ class LinkedList<T> {
 
   // O(n) time
   reduce<R>(iteratee: (accumulator: R, node: Node<T>) => R, accumulator: R): R {
-    this.forEach((node: Node<T>): void => {
+    this.forEach((node) => {
       accumulator = iteratee(accumulator, node);
     });
 
@@ -172,8 +161,6 @@ export function deleteMiddleNode<T>(
   list: LinkedList<T>,
   valueToRemove: T,
 ): boolean {
-  // don't actually need to check `list.head` because size === 0 is the same
-  // but Flow don't know that
   if (!list.head || list.size() <= 2) {
     return false;
   }
