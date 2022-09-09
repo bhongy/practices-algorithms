@@ -6,7 +6,6 @@
   "license": "MIT",
   "scripts": {
     "check": "prettier --check && tsc --noEmit",
-    "lint": "eslint 'src/**/*.ts'",
     "prepush": "yarn check && yarn jest"
   },
   "devDependencies": {
