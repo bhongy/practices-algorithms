@@ -2,10 +2,13 @@
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"],
   "compilerOptions": {
+    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "module": "esnext",
+    // "moduleResolution": "node",
     "noEmit": true,
     "strict": true,
+    // "target": "esnext",
   }
 }
