@@ -6,16 +6,15 @@
   http://www.geeksforgeeks.org/program-for-nth-fibonacci-number/
 */
 
+// Bottom-up, calculate fib(0) up to fib(n)
 // O(n) time, O(n) space
 function dynamicProgrammingFibonacci(n: number): number {
   // if (n < 0) {
   //   throw new Error(
-  //     `Invalid argument n -> ${n} provided. Input must be a positive integer including 0.`
+  //     `Invalid number ${n}. Input must be a positive integer including 0.`
   //   );
   // }
 
-  // use multiple variables and store only last two
-  // to achieve O(1) space - but this is easier to understand
   const result = [0, 1];
 
   for (let i = 2; i <= n; i++) {
@@ -29,25 +28,28 @@ function dynamicProgrammingFibonacci(n: number): number {
 // http://introcs.cs.princeton.edu/java/13flow/Fibonacci.java.html
 // O(n) time, O(1) space
 function dynamicProgrammingOptimizedSpaceFibonacci(n: number): number {
-  let current = 0;
-  let prev = 1;
-  for (let i = 0; i < n; i++) {
-    current += prev;
-    prev = current - prev;
-  }
-  return current;
-}
-
-// O(2^n) time - binary tree with depth `n`
-function recursiveFibonacci(n: number): number {
   if (n < 2) {
     return n;
   }
 
-  return recursiveFibonacci(n - 1) + recursiveFibonacci(n - 2);
+  let a = 0;
+  let b = 1;
+  for (let i = 2; i <= n; i++) {
+    [a, b] = [b, a + b]; // swap "pointers" for the next loop
+  }
+  return b;
 }
 
-// O(log n) time - just re-implement the last solution from:
+function dynamicProgrammingOptimizedSpaceFibonacci2(n: number): number {
+  let current = 0;
+  let next = 1;
+  for (let i = 0; i < n; i++) {
+    [current, next] = [next, next + current];
+  }
+  return current;
+}
+
+// O(log n) time, O(n) space - just re-implement the last solution from:
 // http://www.geeksforgeeks.org/program-for-nth-fibonacci-number/
 function chiragAgarwalFibonacci(n: number): number {
   const fib = chiragAgarwalFibonacci; // alias function name for recursive calls
@@ -69,9 +71,20 @@ function chiragAgarwalFibonacci(n: number): number {
   return result[n];
 }
 
+// Naive, most straight-forward implementation.
+// O(2^n) time - binary tree with depth `n`
+function recursiveFibonacci(n: number): number {
+  if (n < 2) {
+    return n;
+  }
+
+  return recursiveFibonacci(n - 1) + recursiveFibonacci(n - 2);
+}
+
 export default [
   dynamicProgrammingFibonacci,
   dynamicProgrammingOptimizedSpaceFibonacci,
-  recursiveFibonacci,
+  dynamicProgrammingOptimizedSpaceFibonacci2,
   chiragAgarwalFibonacci,
+  recursiveFibonacci,
 ];

@@ -13,48 +13,62 @@
   By calling `next` repeatedly until `hasNext` returns false,
   the order of elements returned by next should be: 1, 2, 3, 4, 5, 6.
 
-  Assume that the input is guaranteed to be 2d matrix.
+  Assume that the input is guaranteed to be number[][].
 
   https://leetcode.com/problems/flatten-2d-vector
 */
 
-function flatten(vector2d: Array<Array<number>>): Array<number> {
-  const result: Array<number> = [];
+interface CustomIterator {
+  next(): number | undefined;
+  hasNext(): boolean;
+}
 
-  for (let i = 0; i < vector2d.length; i++) {
-    const currentRow = vector2d[i];
+export function flattenCustom(vector: number[][]): CustomIterator {
+  let i = 0;
+  let j = 0;
 
-    for (let j = 0; j < currentRow.length; j++) {
-      // practice "not" using push
-      result[result.length] = currentRow[j];
+  function advanceCursors() {
+    if (j < vector[i].length - 1) {
+      j += 1;
+    } else {
+      i += 1;
+      j = 0;
     }
   }
 
-  return result;
+  return {
+    next() {
+      if (this.hasNext()) {
+        const v = vector[i][j];
+        advanceCursors();
+        return v;
+      }
+    },
+
+    hasNext() {
+      return i < vector.length;
+    },
+  };
 }
 
-class Vector2d {
-  values: Array<number>;
-  pointer: number;
-
-  constructor(input: number[][]) {
-    this.values = flatten(input);
-    this.pointer = 0;
-  }
-
-  next(): number | null {
-    if (!this.hasNext()) {
-      return null;
+// returns an iterator over the vector
+export function* flattenGenerator(vector: number[][]): Generator<number> {
+  for (let row of vector) {
+    for (let v of row) {
+      yield v;
     }
-
-    const result = this.values[this.pointer];
-    this.pointer += 1;
-    return result;
-  }
-
-  hasNext(): boolean {
-    return this.pointer < this.values.length;
   }
 }
 
-export default Vector2d;
+// returns an iterable that produces iterator over vector
+export class Vector2d {
+  constructor(private readonly vector: number[][]) {}
+
+  *[Symbol.iterator](): Iterator<number> {
+    for (let a of this.vector) {
+      for (let b of a) {
+        yield b;
+      }
+    }
+  }
+}

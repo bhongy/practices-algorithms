@@ -10,9 +10,9 @@ describe('Fibonacci', () => {
         [5, 5],
         [10, 55],
         [17, 1597],
-      ].forEach(([input, expected]) => {
-        it(`should return the correct fibonacci number for n: ${input}`, () => {
-          expect(fibonacci(input)).toBe(expected);
+      ].forEach(([n, expected]) => {
+        it(`fib(${n}) = ${expected}`, () => {
+          expect(fibonacci(n)).toBe(expected);
         });
       });
     });

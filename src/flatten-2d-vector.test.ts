@@ -1,25 +1,61 @@
-import Vector2d from './flatten-2d-vector';
+import {flattenCustom, flattenGenerator, Vector2d} from './flatten-2d-vector';
 
 describe('Flatten 2D Vector', () => {
-  let vector;
+  describe(`${flattenCustom.name}`, () => {
+    it('returns the correct result for an empty vector', () => {
+      const vector = flattenCustom([]);
 
-  it('should return the correct values one-by-one', () => {
-    vector = new Vector2d([[1, 2], [3], [4, 5, 6]]);
+      expect(vector.hasNext()).toBe(false);
+      expect(vector.next()).toBeUndefined();
+      // next() doesn't change the result
+      expect(vector.hasNext()).toBe(false);
+      expect(vector.next()).toBeUndefined();
+    });
 
-    expect(vector.next()).toBe(1);
-    expect(vector.next()).toBe(2);
-    expect(vector.next()).toBe(3);
-    expect(vector.next()).toBe(4);
-    expect(vector.next()).toBe(5);
-    expect(vector.next()).toBe(6);
-    expect(vector.next()).toBeNull();
+    it('returns the correct values one-by-one', () => {
+      const vector = flattenCustom([[1, 2], [3], [4, 5, 6]]);
+      [1, 2, 3, 4, 5, 6].forEach((n) => {
+        expect(vector.next()).toBe(n);
+      });
+      expect(vector.next()).toBeUndefined();
+    });
+
+    it('returns the correct values when calling `hasNext`', () => {
+      const vector = flattenCustom([[12.34]]);
+      expect(vector.hasNext()).toBe(true);
+      expect(vector.next()).toBe(12.34);
+      expect(vector.hasNext()).toBe(false);
+    });
   });
 
-  it('should return correct values when calling `hasNext`', () => {
-    vector = new Vector2d([[12.34]]);
-    expect(vector.hasNext()).toBe(true);
+  describe(`${flattenGenerator.name}`, () => {
+    it('returns the correct result for an empty vector', () => {
+      const vector = flattenGenerator([]);
 
-    expect(vector.next()).toBe(12.34);
-    expect(vector.hasNext()).toBe(false);
+      expect(vector.next()).toEqual({done: true});
+      // next() doesn't change the result
+      expect(vector.next()).toEqual({done: true});
+      expect([...vector]).toEqual([]);
+    });
+
+    it('returns the correct values one-by-one', () => {
+      const vector = flattenGenerator([[1, 2], [3], [4, 5, 6]]);
+      expect([...vector]).toEqual([1, 2, 3, 4, 5, 6]);
+      expect(vector.next()).toEqual({done: true});
+    });
+  });
+
+  describe(`class ${Vector2d.name}`, () => {
+    it('returns the correct result for an empty vector', () => {
+      const vector = new Vector2d([]);
+      expect([...vector]).toEqual([]);
+    });
+
+    it('returns the correct values one-by-one', () => {
+      const vector = new Vector2d([[1, 2], [3], [4, 5, 6]]);
+      expect([...vector]).toEqual([1, 2, 3, 4, 5, 6]);
+      // returns a new iterator
+      expect([...vector]).toEqual([1, 2, 3, 4, 5, 6]);
+    });
   });
 });
