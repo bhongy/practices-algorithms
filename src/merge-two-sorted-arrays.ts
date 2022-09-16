@@ -8,38 +8,48 @@
   http://khan4019.github.io/front-end-Interview-Questions/js1.html#mergeSotedArray
 */
 
-// O(n)
+// O(n) time, O(n) space
 function mergeSortedArrays(a: Array<number>, b: Array<number>): Array<number> {
-  // micro-optimization - cache constant value access
-  const lenA = a.length;
-  const lenB = b.length;
+  const an = a.length;
+  let ai = 0;
 
-  // special case, one of the input is an empty array
-  // avoid doing extra work if not necessary
-  if (lenA === 0) {
-    return b;
+  const bn = b.length;
+  let bi = 0;
+
+  const merged = new Array(an + bn);
+  let mi = 0;
+
+  while (ai < an && bi < b.length) {
+    merged[mi++] = a[ai] < b[bi] ? a[ai++] : b[bi++];
   }
-  if (lenB === 0) {
-    return a;
+
+  while (ai < an) {
+    merged[mi++] = a[ai++];
   }
 
-  const merged: Array<number> = [];
-  let iA = 0;
-  let iB = 0;
+  while (bi < b.length) {
+    merged[mi++] = b[bi++];
+  }
 
-  while (iA < lenA || iB < lenB) {
-    // from here, we know that we won't have a case
-    // where both iA and iB are out of bound
-    const valA = a[iA];
-    const valB = b[iB];
+  return merged;
+}
 
-    if (iA >= lenA || valA > valB) {
-      // practice: avoid using Array.prototype.push
-      merged[iA + iB] = valB;
-      iB += 1;
+export function mergeSortedArrays2(
+  a: Array<number>,
+  b: Array<number>,
+): Array<number> {
+  const an = a.length;
+  const bn = b.length;
+
+  const merged = new Array(an + bn);
+  let ai = 0;
+  let bi = 0;
+
+  for (let i = 0; i < an + bn; i++) {
+    if (ai >= an || a[ai] > b[bi]) {
+      merged[i] = b[bi++];
     } else {
-      merged[iA + iB] = valA;
-      iA += 1;
+      merged[i] = a[ai++];
     }
   }
 

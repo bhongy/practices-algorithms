@@ -39,9 +39,15 @@ export function flattenCustom(vector: number[][]): CustomIterator {
   return {
     next() {
       if (this.hasNext()) {
-        const v = vector[i][j];
-        advanceCursors();
-        return v;
+        try {
+          return vector[i][j];
+        } finally {
+          advanceCursors();
+        }
+        // similar to ...
+        // const v = vector[i][j];
+        // advanceCursors();
+        // return v;
       }
     },
 

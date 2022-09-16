@@ -1,11 +1,11 @@
 // @flow
 import {MinHeap} from './heap';
 
-function initializeMinHeap<T extends number>(values: Array<T>): MinHeap<T> {
-  return values.reduce((heap, v) => heap.push(v), new MinHeap<T>());
-}
-
 describe('MinHeap', () => {
+  function initializeMinHeap<T extends number>(values: Array<T>): MinHeap<T> {
+    return values.reduce((heap, v) => heap.push(v), new MinHeap<T>());
+  }
+
   describe('.peek()', () => {
     it('returns `null` if the heap is empty', () => {
       const heap = new MinHeap();
@@ -17,12 +17,12 @@ describe('MinHeap', () => {
       expect(heap.peek()).toEqual(58);
     });
 
-    it('returns the smallest value without changing the heap', () => {
+    it('returns the smallest value without removing the items', () => {
       const heap = initializeMinHeap([5, 3, 1.5, -1.2]);
+      expect(heap.items).toEqual([-1.2, 1.5, 3, 5]);
       expect(heap.peek()).toEqual(-1.2);
       expect(heap.peek()).toEqual(-1.2);
-      // just check length because this is not where we test the heapifying
-      expect(heap.store).toHaveLength(4);
+      expect(heap.items).toEqual([-1.2, 1.5, 3, 5]);
     });
   });
 
@@ -30,7 +30,7 @@ describe('MinHeap', () => {
     it('works on an empty heap', () => {
       const heap = new MinHeap();
       heap.push(73.3);
-      expect(heap.store).toEqual([73.3]);
+      expect(heap.items).toEqual([73.3]);
     });
 
     it('maintains invariant when pushes a bunch of unsorted values', () => {
@@ -41,7 +41,7 @@ describe('MinHeap', () => {
       ];
       const heap = initializeMinHeap(data);
       // prettier-ignore
-      expect(heap.store).toEqual([
+      expect(heap.items).toEqual([
         -36,
         -30, -29,
         -16, 178, 122, 100,
@@ -60,7 +60,7 @@ describe('MinHeap', () => {
     it('returns the only value and results to an empty heap', () => {
       const heap = initializeMinHeap([46.54]);
       expect(heap.pop()).toEqual(46.54);
-      expect(heap.store).toEqual([]);
+      expect(heap.items).toEqual([]);
     });
 
     it('returns the smallest value', () => {
@@ -74,9 +74,9 @@ describe('MinHeap', () => {
     it('maintains invariant', () => {
       const heap = initializeMinHeap([1, 2, 3, 4]);
       heap.pop();
-      expect(heap.store).toEqual([2, 4, 3]);
+      expect(heap.items).toEqual([2, 4, 3]);
       heap.pop();
-      expect(heap.store).toEqual([3, 4]);
+      expect(heap.items).toEqual([3, 4]);
     });
   });
 });

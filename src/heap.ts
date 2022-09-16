@@ -8,93 +8,107 @@
       - 6 - 13
           - 14
 */
-const util = {
-  leftChildIndex(i: number): number {
-    return 2 * i + 1;
-  },
-  rightChildIndex(i: number): number {
-    return 2 * i + 2;
-  },
-  parentIndex(i: number): number {
-    if (i <= 0) {
-      // throw new RangeError(`${i} does not have a parent.`);
-      return -1;
-    }
-    return Math.trunc((i - 1) / 2);
-  },
-  swap<T>(xs: Array<T>, i: number, j: number): void {
-    const temp = xs[i];
-    xs[i] = xs[j];
-    xs[j] = temp;
-  },
-};
 
 export class MinHeap<T extends number> {
-  store: Array<T> = [];
+  items: Array<T> = [];
 
-  // constructor() {
-  //   this.store = [];
-  // }
+  size(): number {
+    return this.items.length;
+  }
+
+  isEmpty(): boolean {
+    return this.size() === 0;
+  }
 
   peek(): T | null {
-    if (this.store.length === 0) {
+    if (this.isEmpty()) {
       return null;
     }
-    return this.store[0];
+    return this.items[0];
   }
 
   pop(): T | null {
-    if (this.store.length === 0) {
+    if (this.isEmpty()) {
       return null;
     }
-    const item = this.store[0]; // take the first item
-    const lastIndex = this.store.length - 1;
-    this.store[0] = this.store[lastIndex];
-    this.store.pop();
+    const item = this.items[0];
+    const lastIndex = this.items.length - 1;
+    this.items[0] = this.items[lastIndex];
+    this.items.pop(); // shrink the array
     this.heapifyDown();
     return item;
   }
 
-  heapifyDown(): void {
-    let currentIndex = 0;
-    let leftChildIndex = util.leftChildIndex(currentIndex);
-    let leftChild = this.store[leftChildIndex];
-    // 0 is falsy, don't `while (leftChild)`
-    while (leftChild != null) {
-      const rightChildIndex = util.rightChildIndex(currentIndex);
-      const rightChild = this.store[rightChildIndex];
-      let smallerChildIndex = leftChildIndex;
-      if (rightChild != null && rightChild < leftChild) {
-        smallerChildIndex = rightChildIndex;
-      }
-      if (this.store[currentIndex] <= this.store[smallerChildIndex]) {
-        return;
-      }
-      util.swap(this.store, currentIndex, smallerChildIndex);
-      currentIndex = smallerChildIndex;
-      leftChildIndex = util.leftChildIndex(currentIndex);
-      leftChild = this.store[leftChildIndex];
-    }
-  }
-
   push(item: T): this {
-    this.store.push(item);
+    this.items.push(item);
     this.heapifyUp();
     return this; // so user can cleanly chain/reduce
   }
 
-  heapifyUp(): void {
-    let currentIndex = this.store.length - 1;
-    let parentIndex = util.parentIndex(currentIndex);
-    while (
-      parentIndex > -1 &&
-      this.store[currentIndex] < this.store[parentIndex]
-    ) {
-      util.swap(this.store, currentIndex, parentIndex);
-      currentIndex = parentIndex;
-      parentIndex = util.parentIndex(currentIndex);
+  private static leftChildIndex(i: number): number {
+    return 2 * i + 1;
+  }
+
+  private static rightChildIndex(i: number): number {
+    return 2 * i + 2;
+  }
+
+  private static parentIndex(i: number): number {
+    return Math.floor((i - 1) / 2);
+  }
+
+  private hasLeftChild(i: number): boolean {
+    return MinHeap.leftChildIndex(i) < this.items.length;
+  }
+
+  private hasRightChild(i: number): boolean {
+    return MinHeap.rightChildIndex(i) < this.items.length;
+  }
+
+  private hasParent(i: number): boolean {
+    return MinHeap.parentIndex(i) >= 0;
+  }
+
+  private leftChild(i: number): number {
+    return this.items[MinHeap.leftChildIndex(i)];
+  }
+
+  private rightChild(i: number): number {
+    return this.items[MinHeap.rightChildIndex(i)];
+  }
+
+  private parent(i: number): number {
+    return this.items[MinHeap.parentIndex(i)];
+  }
+
+  private swap(i: number, j: number): void {
+    const xs = this.items;
+    [xs[i], xs[j]] = [xs[j], xs[i]];
+  }
+
+  private heapifyDown(): void {
+    let i = 0;
+    while (this.hasLeftChild(i)) {
+      const smallerChildIndex =
+        this.hasRightChild(i) && this.rightChild(i) < this.leftChild(i)
+          ? MinHeap.rightChildIndex(i)
+          : MinHeap.leftChildIndex(i);
+
+      if (this.items[i] <= this.items[smallerChildIndex]) {
+        return;
+      }
+
+      this.swap(i, smallerChildIndex);
+      i = smallerChildIndex;
+    }
+  }
+
+  private heapifyUp(): void {
+    let i = this.items.length - 1;
+    while (this.hasParent(i) && this.parent(i) > this.items[i]) {
+      const pi = MinHeap.parentIndex(i);
+      this.swap(i, pi);
+      i = pi;
     }
   }
 }
-
-export default undefined;

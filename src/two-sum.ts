@@ -19,29 +19,19 @@ function bruteForce(nums: Array<number>, target: number): Result {
 }
 
 function twoPassImperative(nums: Array<number>, target: number): Result {
-  const hashmap = new Map();
+  const m = new Map<number, number>();
 
   // add element's value and its index to the map
   for (let i = 0; i < nums.length; i++) {
-    hashmap.set(nums[i], i);
+    m.set(nums[i], i);
   }
 
   // check the match
   for (let i = 0; i < nums.length; i++) {
-    const complement = target - nums[i];
-
-    if (hashmap.has(complement)) {
-      // Flow doesn't recognize that null check was performed - i.e. `Map.prototype.has`
-      // $FlowFixMe: suppress the false positive
-      return [i, hashmap.get(complement)];
+    const complement = m.get(target - nums[i]);
+    if (complement != null) {
+      return [i, complement];
     }
-
-    // alternative with micro-optimization: cache the lookup
-    // const complementKey = hashmap.get(complement)
-
-    // if (typeof complementKey !== 'undefined') {
-    //   return [i, complementKey]
-    // }
   }
 
   return [];
@@ -55,19 +45,16 @@ function twoPassFunctional(nums: Array<number>, target: number): Result {
   // Array.prototype.reduce vs the for loop is very unlikely
   // to be the bottleneck in most situations
 
-  const hashmap = nums.reduce(
+  const m = nums.reduce(
     (acc, value, index) => acc.set(value, index),
-    new Map(),
+    new Map<number, number>(),
   );
 
   // check the match
   for (let i = 0; i < nums.length; i++) {
-    const complement = target - nums[i];
-
-    if (hashmap.has(complement)) {
-      // Flow doesn't recognize that null check was performed - i.e. `Map.prototype.has`
-      // $FlowFixMe: suppress the false positive
-      return [i, hashmap.get(complement)];
+    const complement = m.get(target - nums[i]);
+    if (complement != null) {
+      return [i, complement];
     }
   }
 
@@ -75,23 +62,19 @@ function twoPassFunctional(nums: Array<number>, target: number): Result {
 }
 
 function onePass(nums: Array<number>, target: number): Result {
-  const hashmap = new Map();
+  const m = new Map<number, number>();
 
   for (let i = 0; i < nums.length; i++) {
-    const currentValue = nums[i];
-    const complement = target - currentValue;
-
-    if (hashmap.has(complement)) {
+    const current = nums[i];
+    const complement = m.get(target - current);
+    if (complement != null) {
       // look back to find the complement of `nums[i]` in each iteration
       // hence `i` is more than the index of `complement`
       // return this way to order by the lower index first
-
-      // Flow doesn't recognize that null check was performed - i.e. `Map.prototype.has`
-      // $FlowFixMe: suppress the false positive
-      return [hashmap.get(complement), i];
+      return [complement, i];
     }
 
-    hashmap.set(currentValue, i);
+    m.set(current, i);
   }
 
   return [];
