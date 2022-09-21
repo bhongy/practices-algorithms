@@ -29,6 +29,21 @@ post: [24,12,4,1]
 out:  [24,12,8,6]
 */
 
+// Straight-forward solution but _fails_ the requirement
+// i.e. it does not run in O(n) time
+//
+// O(n^2) time - calculate product is O(n) and we do that ~2n times
+// O(n) space - copy sub arrays in each iteration
+export function naive(xs: number[]): number[] {
+  const product = (xs: number[]): number => xs.reduce((acc, x) => acc * x, 1);
+  const n = xs.length;
+  const products = new Array(n);
+  for (let i = 0; i < n; i++) {
+    products[i] = product(xs.slice(0, i)) * product(xs.slice(i + 1));
+  }
+  return products;
+}
+
 // O(n) time - traverse the array 3 times
 // O(n) space - need 2 extra arrays of length n (pre, post)
 //   besides the result products array

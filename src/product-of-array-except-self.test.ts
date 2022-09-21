@@ -1,6 +1,6 @@
-import {twoArrays, spaceOptimized} from './product-of-array-except-self';
+import {naive, twoArrays, spaceOptimized} from './product-of-array-except-self';
 
-[twoArrays, spaceOptimized].forEach((fn) => {
+[naive, twoArrays, spaceOptimized].forEach((fn) => {
   test(fn.name, () => {
     const tcs: [number[], number[]][] = [
       [
