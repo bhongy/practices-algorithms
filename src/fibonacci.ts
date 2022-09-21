@@ -81,10 +81,24 @@ function recursiveFibonacci(n: number): number {
   return recursiveFibonacci(n - 1) + recursiveFibonacci(n - 2);
 }
 
+// O(n) time
+// O(n) space (memo + call stack)
+function recursiveTopDownWithMemo(
+  n: number,
+  memo: {[n: number]: number} = {0: 0, 1: 1, 2: 1},
+): number {
+  const fib = recursiveTopDownWithMemo; // alias function name so it's not confusing to read
+  if (memo[n] == null) {
+    memo[n] = fib(n - 1, memo) + fib(n - 2, memo);
+  }
+  return memo[n];
+}
+
 export default [
   dynamicProgrammingFibonacci,
   dynamicProgrammingOptimizedSpaceFibonacci,
   dynamicProgrammingOptimizedSpaceFibonacci2,
   chiragAgarwalFibonacci,
   recursiveFibonacci,
+  recursiveTopDownWithMemo,
 ];
