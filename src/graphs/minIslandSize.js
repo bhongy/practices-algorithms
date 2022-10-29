@@ -9,9 +9,10 @@ function minIslandSize(grid) {
   const numCols = grid[0].length;
   for (let row = 0; row < numRows; row++) {
     for (let col = 0; col < numCols; col++) {
-      const size = exploreSize(grid, row, col, visited);
-      if (size > 0) {
-        minSize = minSize === 0 ? size : Math.min(minSize, size);
+      // const size = exploreSizeDFS(grid, visited, row, col);
+      const size = exploreSizeBFS(grid, visited, row, col);
+      if (size > 0 && (minSize === 0 || size < minSize)) {
+        minSize = size;
       }
     }
   }
@@ -19,34 +20,51 @@ function minIslandSize(grid) {
   return minSize;
 }
 
-function exploreSize(grid, r, c, visited) {
-  if (r < 0 || r >= grid.length || c < 0 || c >= grid[0].length) {
-    return 0;
-  }
-
-  if (grid[r][c] === WATER) {
-    return 0;
-  }
-
+function exploreSizeDFS(grid, visited, r, c) {
   const k = `${r},${c}`;
-  if (visited.has(k)) {
+  if (
+    r < 0 ||
+    c < 0 ||
+    r >= grid.length ||
+    c >= grid[r].length ||
+    grid[r][c] === WATER ||
+    visited.has(k)
+  ) {
     return 0;
   }
 
   visited.add(k);
   return [
-    [-1, 0],
-    [1, 0],
-    [0, -1],
-    [0, 1],
-  ].reduce(
-    (sum, [dr, dc]) => sum + exploreSize(grid, r + dr, c + dc, visited),
-    1,
-  );
+    [r + 1, c],
+    [r - 1, c],
+    [r, c + 1],
+    [r, c - 1],
+  ].reduce((size, [i, j]) => size + exploreSizeDFS(grid, visited, i, j), 1);
 }
 
-function sum(nums) {
-  return nums.reduce((sum, n) => sum + n, 0);
+function exploreSizeBFS(grid, visited, row, col) {
+  const numRows = grid.length;
+  const numCols = grid[0].length;
+
+  let size = 0;
+  const queue = [[row, col]];
+  while (queue.length > 0) {
+    const [r, c] = queue.shift();
+    const k = `${r},${c}`;
+    if (
+      r >= 0 &&
+      c >= 0 &&
+      r < numRows &&
+      c < numCols &&
+      grid[r][c] === LAND &&
+      !visited.has(k)
+    ) {
+      visited.add(k);
+      size += 1;
+      queue.push([r + 1, c], [r, c + 1], [r - 1, c], [r, c - 1]);
+    }
+  }
+  return size;
 }
 
 // 0

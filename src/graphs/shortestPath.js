@@ -38,3 +38,28 @@ function shortestPath(edges, src, dst) {
 }
 
 console.log(shortestPath(edges, 'w', 'z')); // 2
+
+function shortestPathDFS(edges, src, dst) {
+  const graph = toAdjacencyList(edges);
+  const visited = new Set();
+  return (function search(from) {
+    if (from === dst) {
+      return 0;
+    }
+    if (visited.has(from)) {
+      return -1;
+    }
+    visited.add(from);
+    let minDistance = -1;
+    for (const n of graph[from]) {
+      const distance = 1 + search(n);
+      if (distance === 0) {
+        continue;
+      }
+      if (minDistance < 0 || distance < minDistance) {
+        minDistance = distance;
+      }
+    }
+    return minDistance;
+  })(src);
+}
